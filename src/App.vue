@@ -25,9 +25,11 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-app-bar app color="indigo" dark clipped-left>
+    <v-app-bar app color="pink darken-2" dark clipped-left>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title>Application</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-switch v-model="goDark" label="Dark"></v-switch>
     </v-app-bar>
 
     <v-content>
