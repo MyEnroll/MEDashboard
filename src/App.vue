@@ -1,56 +1,77 @@
 <template>
   <v-app>
-    <v-app-bar app color="primary" dark>
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
+    <v-navigation-drawer v-model="drawer" app clipped>
+      <v-list dense>
+        <router-link :to="{ name: 'Home' }">
+          <v-list-item link>
+            <v-list-item-action>
+              <v-icon>mdi-home</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>Home</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </router-link>
+        <router-link :to="{name: 'Test'}">
+          <v-list-item link>
+            <v-list-item-action>
+              <v-icon>mdi-history</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>Test</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </router-link>
+      </v-list>
+    </v-navigation-drawer>
 
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
-
-      <v-spacer></v-spacer>
-
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
+    <v-app-bar app color="indigo" dark clipped-left>
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+      <v-toolbar-title>Application</v-toolbar-title>
     </v-app-bar>
 
     <v-content>
-      <HelloWorld />
+      <v-container fluid>
+        <v-row>
+          <v-col>
+            <h2 class="display-1 font-weight-light">{{ this.$route.name }}</h2>
+          </v-col>
+        </v-row>
+        <v-row align="center" justify="center">
+          <v-col class="py-0 px-3">
+            <v-scroll-x-transition mode="out-in">
+              <router-view :goDark="goDark"></router-view>
+            </v-scroll-x-transition>
+          </v-col>
+        </v-row>
+      </v-container>
     </v-content>
   </v-app>
 </template>
+<style scoped>
+.v-application a {
+  text-decoration: none;
+}
+</style>
 
 <script>
-import HelloWorld from "./components/HelloWorld";
-
 export default {
-  name: "App",
-
-  components: {
-    HelloWorld
+  props: {
+    source: String
   },
-
   data: () => ({
-    //
-  })
+    drawer: null,
+    goDark: false
+  }),
+  method: {},
+  watch: {
+    goDark: function() {
+      if (this.goDark) {
+        this.$vuetify.theme.dark = true;
+      } else {
+        this.$vuetify.theme.dark = false;
+      }
+    }
+  }
 };
 </script>
