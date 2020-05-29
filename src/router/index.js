@@ -19,7 +19,9 @@ export default new VueRouter({
 			// this generates a separate chunk (about.[hash].js) for this route
 			// which is lazy-loaded when the route is visited.
 			component: () =>
-				import(/* webpackChunkName: "about" */ '../views/acaDashboard.vue'),
+				import(
+					/* webpackChunkName: "aca_dashboard" */ '../views/acaDashboard.vue'
+				),
 		},
 		{
 			path: '/cobra',
@@ -29,7 +31,9 @@ export default new VueRouter({
 			// this generates a separate chunk (about.[hash].js) for this route
 			// which is lazy-loaded when the route is visited.
 			component: () =>
-				import(/* webpackChunkName: "about" */ '../views/cobraDashboard.vue'),
+				import(
+					/* webpackChunkName: "cobra_dashboard" */ '../views/cobraDashboard.vue'
+				),
 		},
 	],
 });

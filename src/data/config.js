@@ -1,0 +1,64 @@
+export default {
+	queries: [
+		{
+			title:
+				'Continuant Election Period Ended But Now Have Extended Time Period to Elect',
+			json: 'dashDataA',
+			report: 'A1',
+			reportAbbr: 'A1',
+			countBill: '',
+			countRec: '',
+		},
+		{
+			title: 'Continuant Election Period Ends During Outbreak Period',
+			json: 'dashDataA',
+			report: 'A2',
+			reportAbbr: 'A2',
+			countBill: '',
+			countRec: '',
+		},
+		{
+			title: 'Continuant Election Period Ends After Outbreak Period',
+			json: 'dashDataB',
+			report: 2,
+			reportAbbr: 'B',
+			countBill: '',
+			countRec: '',
+		},
+		{
+			title: 'Active COBRA Participants',
+			json: 'dashDataC',
+			report: 3,
+			reportAbbr: 'C',
+			countBill: '',
+			countRec: '',
+		},
+		{
+			title:
+				'Continuants Whose Coverage Terminated For NonPayment But Now Have Extended Time to Pay',
+			json: 'dashDataD',
+			report: 4,
+			reportAbbr: 'D',
+			countBill: '',
+			countRec: '',
+		},
+		{
+			title:
+				'Continuants Whose Maximum Coverage Period Expires After Outbreak Period',
+			json: 'dashDataE',
+			report: 5,
+			reportAbbr: 'E',
+			countBill: '',
+			countRec: '',
+		},
+		{
+			title:
+				'Continuants Whose Maximum Coverage Period Expires During Outbreak Period',
+			json: 'dashDataF',
+			report: 6,
+			reportAbbr: 'F',
+			countBill: '',
+			countRec: '',
+		},
+	],
+};

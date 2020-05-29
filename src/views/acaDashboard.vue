@@ -1,8 +1,8 @@
 <template>
-  <div>Test for ACA</div>
+	<div>Test for ACA</div>
 </template>
 <script>
-export default {
-  name: "acaDashboard"
-};
+	export default {
+		name: 'acaDashboard',
+	};
 </script>
