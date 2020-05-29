@@ -28,7 +28,7 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-app-bar app color="transparent" flat>
+    <v-app-bar app :color="appBarColor" flat>
       <v-btn @click.stop="drawer = !drawer" fab small color="primary" class="elevation-2 mr-3">
         <template v-if="drawer" mode>
           <v-icon>mdi-chevron-left</v-icon>
@@ -80,6 +80,7 @@ export default {
     drawer: null,
     goDark: false,
     selRoute: "",
+    appBarColor: "white",
     dashboards: routes.dashboards
   }),
   computed: {
@@ -103,8 +104,10 @@ export default {
     goDark: function() {
       if (this.goDark) {
         this.$vuetify.theme.dark = true;
+        this.appBarColor = "blue-grey darken-4";
       } else {
         this.$vuetify.theme.dark = false;
+        this.appBarColor = "white";
       }
     }
   }
