@@ -1,33 +1,43 @@
 <template>
   <v-app>
-    <v-navigation-drawer v-model="drawer" app clipped>
-      <v-list dense>
-        <router-link :to="{ name: 'Home' }">
-          <v-list-item link>
-            <v-list-item-action>
-              <v-icon>mdi-home</v-icon>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title>Home</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </router-link>
-        <router-link :to="{name: 'Test'}">
-          <v-list-item link>
-            <v-list-item-action>
-              <v-icon>mdi-history</v-icon>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title>Test</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </router-link>
+    <v-navigation-drawer v-model="drawer" app>
+      <v-list>
+        <v-subheader class="subheader-1">Available Dashboards</v-subheader>
+        <v-list-item-group v-model="selRoute">
+          <router-link :to="{ name: 'Home' }">
+            <v-list-item link value="Home">
+              <v-list-item-action>
+                <v-icon>mdi-home</v-icon>
+              </v-list-item-action>
+              <v-list-item-content>
+                <v-list-item-title>Home</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </router-link>
+          <router-link :to="{ name: item.name }" v-for="(item, index) in availDash" :key="index">
+            <v-list-item link :value="item.name">
+              <v-list-item-action v-if="item.icon != ''">
+                <v-icon>{{ item.icon }}</v-icon>
+              </v-list-item-action>
+              <v-list-item-content>
+                <v-list-item-title>{{item.displayName}}</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </router-link>
+        </v-list-item-group>
       </v-list>
     </v-navigation-drawer>
 
-    <v-app-bar app color="pink darken-2" dark clipped-left>
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-toolbar-title>Application</v-toolbar-title>
+    <v-app-bar app color="transparent" flat>
+      <v-btn @click.stop="drawer = !drawer" fab small color="primary" class="elevation-2 mr-3">
+        <template v-if="drawer" mode>
+          <v-icon>mdi-chevron-left</v-icon>
+        </template>
+        <template v-if="!drawer" mode>
+          <v-icon>mdi-menu</v-icon>
+        </template>
+      </v-btn>
+      <v-toolbar-title>Dashboards</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-switch v-model="goDark" label="Dark"></v-switch>
     </v-app-bar>
@@ -41,9 +51,9 @@
         </v-row>
         <v-row align="center" justify="center">
           <v-col class="py-0 px-3">
-            <v-scroll-x-transition mode="out-in">
+            <transition name="scroll-x-transition" mode="out-in">
               <router-view :goDark="goDark"></router-view>
-            </v-scroll-x-transition>
+            </transition>
           </v-col>
         </v-row>
       </v-container>
@@ -57,16 +67,35 @@
 </style>
 
 <script>
+import routes from "@/router/dashboardListing.js";
 export default {
   props: {
     source: String
   },
   data: () => ({
     drawer: null,
-    goDark: false
+    goDark: false,
+    selRoute: "",
+    dashboards: routes.dashboards
   }),
-  method: {},
+  computed: {
+    availDash: function() {
+      var self = this;
+      return self.dashboards.filter(function(n) {
+        return n.active == 1;
+      });
+    }
+  },
+  mounted: function() {
+    var self = this;
+    setTimeout(function() {
+      self.selRoute = self.$route.name;
+    }, 1);
+  },
   watch: {
+    $route: function() {
+      this.selRoute = this.$route.name;
+    },
     goDark: function() {
       if (this.goDark) {
         this.$vuetify.theme.dark = true;

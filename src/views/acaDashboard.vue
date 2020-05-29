@@ -1,8 +1,8 @@
 <template>
-  <div>This is just a test view</div>
+  <div>Test for ACA</div>
 </template>
 <script>
 export default {
-  name: "testView"
+  name: "acaDashboard"
 };
 </script>
