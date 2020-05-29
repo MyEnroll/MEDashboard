@@ -1,88 +1,83 @@
 <template>
 	<div>
-		<v-scroll-y-transition>
+		<v-slide-x-reverse-transition>
 			<template v-if="loaded.length < 6">
-				<div
-					class="m-4 uk-border-rounded uk-card uk-card-default uk-padding-small uk-position-top-right uk-text-center"
-				>
-					<v-progress-circular
-						:size="50"
-						color="primary"
-						indeterminate
-					></v-progress-circular>
-					<div class="uk-text-bold">Loading Reports...</div>
-				</div>
-			</template>
-		</v-scroll-y-transition>
-		<div class="uk-grid-small uk-child-width-1-1" uk-grid>
-			<div>
-				<v-card
-					loader-height="6"
-					:loading="allRepsLoaded"
-					color="blue-grey darken-4"
-					dark
-					class="overflow-hidden"
-					elevation="10"
-				>
-					<apexchart
-						ref="cobrachart"
-						type="bar"
-						height="350"
-						:options="chartOptions"
-						:series="series"
-					></apexchart>
-					<div>
-						<table
-							class="uk-table uk-table-middle uk-table-hover uk-table-divider uk-table-responsive"
-						>
-							<tbody>
-								<tr
-									v-for="(item, index) in config"
-									:key="index"
-									class="uk-animation-fade uk-animation-fast"
-									@click="exportCSV(item.report, item.title, true)"
-									style="cursor:pointer;font-size:1rem"
-								>
-									<td>
-										<span
-											style="font-size:1.25rem;"
-											:style="'color:' + getSeriesColor(index)"
-											class="fas fa-square uk-margin-small-right"
-										></span>
-									</td>
-									<td>
-										<span
-											v-html="item.reportAbbr"
-											class="uk-text-bold"
-											style="font-size:1.15rem"
-										></span>
-									</td>
-									<td>
-										<span v-html="item.title"></span>
-									</td>
-									<td class="uk-text-nowrap">
-										<span v-if="item.countBill > 0">
-											<b>Billable</b>
-										</span>
-									</td>
-									<td class="uk-text-nowrap">
-										<span v-if="item.countRec == 0">
-											<span class="uk-text-meta uk-text-danger">(No Data)</span>
-										</span>
-									</td>
-									<td class="uk-text-nowrap">
-										<div>
-											<span class="uk-button uk-button-link"
-												>Download Data</span
-											>
-										</div>
-									</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
+				<v-card class="text-center me-top-right">
+					<v-card-text>
+						<v-progress-circular
+							:size="50"
+							color="primary"
+							indeterminate
+						></v-progress-circular>
+						<div class="font-weight-bold">Loading Reports...</div>
+					</v-card-text>
 				</v-card>
-			</div>
+			</template>
+		</v-slide-x-reverse-transition>
+		<div>
+			<v-card
+				loader-height="6"
+				:loading="allRepsLoaded"
+				color="blue-grey darken-4"
+				dark
+				class="overflow-hidden"
+				elevation="10"
+			>
+				<apexchart
+					ref="cobrachart"
+					type="bar"
+					height="350"
+					:options="chartOptions"
+					:series="series"
+				></apexchart>
+				<div>
+					<table
+						class="uk-table uk-table-middle uk-table-hover uk-table-divider uk-table-responsive"
+					>
+						<tbody>
+							<tr
+								v-for="(item, index) in config"
+								:key="index"
+								@click="exportCSV(item.report, item.title, true)"
+								style="cursor:pointer;font-size:1rem"
+							>
+								<td>
+									<span
+										style="font-size:1.25rem;"
+										:style="'color:' + getSeriesColor(index)"
+										class="fas fa-square mr-2"
+									></span>
+								</td>
+								<td>
+									<span
+										v-html="item.reportAbbr"
+										class="font-weight-bold"
+										style="font-size:1.15rem"
+									></span>
+								</td>
+								<td>
+									<span v-html="item.title"></span>
+								</td>
+								<td class="text-no-wrap">
+									<span v-if="item.countBill > 0">
+										<b>Billable</b>
+									</span>
+								</td>
+								<td class="text-no-wrap">
+									<span v-if="item.countRec == 0">
+										<span class="text--accent-2 pink--text">(No Data)</span>
+									</span>
+								</td>
+								<td class="text-no-wrap">
+									<v-btn text color="primary lighten-2" class="pa-0">
+										Download Data
+									</v-btn>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</v-card>
 		</div>
 	</div>
 </template>
@@ -90,6 +85,85 @@
 	.uk-table-hover tbody tr:hover,
 	.uk-table-hover > tr:hover {
 		background: #455a64;
+		transition: 0.1s ease;
+	}
+	.me-top-right {
+		position: absolute;
+		top: -15px;
+		right: 20px;
+	}
+	.uk-table {
+		border-collapse: collapse;
+		border-spacing: 0;
+		width: 100%;
+		margin-bottom: 20px;
+	}
+	* + .uk-table {
+		margin-top: 20px;
+	}
+	.uk-table th {
+		padding: 16px 12px;
+		text-align: left;
+		vertical-align: bottom;
+		/* 1 */
+		font-size: 0.875rem;
+		font-weight: normal;
+		color: #999;
+		text-transform: uppercase;
+	}
+	.uk-table td {
+		padding: 16px 12px;
+		vertical-align: top;
+	}
+	.uk-table td > :last-child {
+		margin-bottom: 0;
+	}
+	.uk-table-middle,
+	.uk-table-middle td {
+		vertical-align: middle !important;
+	}
+	.uk-table-divider > tr:not(:first-child),
+	.uk-table-divider > :not(:first-child) > tr,
+	.uk-table-divider > :first-child > tr:not(:first-child) {
+		border-top: 1px solid #e5e5e5;
+	}
+	@media (max-width: 959px) {
+		.uk-table-responsive,
+		.uk-table-responsive tbody,
+		.uk-table-responsive th,
+		.uk-table-responsive td,
+		.uk-table-responsive tr {
+			display: block;
+		}
+		.uk-table-responsive thead {
+			display: none;
+		}
+		.uk-table-responsive th,
+		.uk-table-responsive td {
+			width: auto !important;
+			max-width: none !important;
+			min-width: 0 !important;
+			overflow: visible !important;
+			white-space: normal !important;
+		}
+		.uk-table-responsive th:not(:first-child):not(.uk-table-link),
+		.uk-table-responsive td:not(:first-child):not(.uk-table-link),
+		.uk-table-responsive .uk-table-link:not(:first-child) > a {
+			padding-top: 5px !important;
+		}
+		.uk-table-responsive th:not(:last-child):not(.uk-table-link),
+		.uk-table-responsive td:not(:last-child):not(.uk-table-link),
+		.uk-table-responsive .uk-table-link:not(:last-child) > a {
+			padding-bottom: 5px !important;
+		}
+		.uk-table-justify.uk-table-responsive th,
+		.uk-table-justify.uk-table-responsive td {
+			padding-left: 0;
+			padding-right: 0;
+		}
+	}
+	.uk-table tbody tr {
+		transition: background-color 0.1s linear;
 	}
 </style>
 <script>
@@ -97,8 +171,7 @@
 	import $ from 'jquery';
 	import config from '@/data/config.js';
 	import VueApexCharts from 'vue-apexcharts';
-	import 'uikit/dist/css/uikit.min.css';
-	import 'uikit/dist/js/uikit.min.js';
+	import 'vuetify/dist/vuetify.min.css';
 
 	Vue.component('apexchart', VueApexCharts);
 	export default {
@@ -468,105 +541,80 @@
 				]);
 			},
 
-			// exportCSV: function(report, ReportTitle, ShowLabel) {
-			// 	var self = this;
-			// 	var dt = new Date();
-			// 	var todayDt =
-			// 		((dt.getMonth() + 1).toString().length == 1
-			// 			? '0' + (dt.getMonth() + 1).toString()
-			// 			: dt.getMonth() + 1) +
-			// 		'-' +
-			// 		(dt.getDate().toString().length == 1
-			// 			? '0' + dt.getDate().toString()
-			// 			: dt.getDate()) +
-			// 		'-' +
-			// 		dt.getFullYear();
-			// 	var JSONData;
-			// 	if (report == 'A1') {
-			// 		JSONData = self.dashA1;
-			// 	} else if (report == 'A2') {
-			// 		JSONData = self.dashA2;
-			// 	} else if (report == 2) {
-			// 		JSONData = self.dashDataB;
-			// 	} else if (report == 3) {
-			// 		JSONData = self.dashDataC;
-			// 	} else if (report == 4) {
-			// 		JSONData = self.dashDataD;
-			// 	} else if (report == 5) {
-			// 		JSONData = self.dashDataE;
-			// 	} else if (report == 6) {
-			// 		JSONData = self.dashDataF;
-			// 	}
-			// 	var arrData =
-			// 		typeof JSONData != 'object' ? JSON.parse(JSONData) : JSONData;
+			exportCSV: function(report, ReportTitle, ShowLabel) {
+				var self = this;
+				var dt = new Date();
+				var todayDt =
+					((dt.getMonth() + 1).toString().length == 1
+						? '0' + (dt.getMonth() + 1).toString()
+						: dt.getMonth() + 1) +
+					'-' +
+					(dt.getDate().toString().length == 1
+						? '0' + dt.getDate().toString()
+						: dt.getDate()) +
+					'-' +
+					dt.getFullYear();
+				var JSONData;
+				if (report == 'A1') {
+					JSONData = self.dashA1;
+				} else if (report == 'A2') {
+					JSONData = self.dashA2;
+				} else if (report == 2) {
+					JSONData = self.dashDataB;
+				} else if (report == 3) {
+					JSONData = self.dashDataC;
+				} else if (report == 4) {
+					JSONData = self.dashDataD;
+				} else if (report == 5) {
+					JSONData = self.dashDataE;
+				} else if (report == 6) {
+					JSONData = self.dashDataF;
+				}
+				var arrData =
+					typeof JSONData != 'object' ? JSON.parse(JSONData) : JSONData;
 
-			// 	var CSV = '';
-			// 	//Set Report title in first row or line
+				var CSV = '';
 
-			// 	CSV += ReportTitle + '\r\n\n';
+				CSV += ReportTitle + '\r\n\n';
 
-			// 	//This condition will generate the Label/Header
-			// 	if (ShowLabel) {
-			// 		var row = '';
+				if (ShowLabel) {
+					var row = '';
+					for (var index in arrData[0]) {
+						row += index + ',';
+					}
 
-			// 		//This loop will extract the label from 1st index of on array
-			// 		for (var index in arrData[0]) {
-			// 			//Now convert each value to string and comma-seprated
-			// 			row += index + ',';
-			// 		}
+					row = row.slice(0, -1);
+					CSV += row + '\r\n';
+				}
 
-			// 		row = row.slice(0, -1);
+				for (var i = 0; i < arrData.length; i++) {
+					var row2 = '';
+					for (var index2 in arrData[i]) {
+						row2 += '"' + arrData[i][index2] + '",';
+					}
 
-			// 		//append Label row with line break
-			// 		CSV += row + '\r\n';
-			// 	}
+					row2.slice(0, row2.length - 1);
+					CSV += row2 + '\r\n';
+				}
 
-			// 	//1st loop is to extract each row
-			// 	for (var i = 0; i < arrData.length; i++) {
-			// 		var row = '';
+				if (CSV == '') {
+					alert('Invalid data');
+					return;
+				}
 
-			// 		//2nd loop will extract each column and convert it in string comma-seprated
-			// 		for (var index in arrData[i]) {
-			// 			row += '"' + arrData[i][index] + '",';
-			// 		}
+				var fileName = '';
+				fileName += ReportTitle.replace(/ /g, '_') + '_' + todayDt;
 
-			// 		row.slice(0, row.length - 1);
+				var uri = 'data:text/csv;charset=utf-8,' + escape(CSV);
 
-			// 		//add a line break after each row
-			// 		CSV += row + '\r\n';
-			// 	}
-
-			// 	if (CSV == '') {
-			// 		alert('Invalid data');
-			// 		return;
-			// 	}
-
-			// 	//Generate a file name
-			// 	var fileName = '';
-			// 	//this will remove the blank-spaces from the title and replace it with an underscore
-			// 	fileName += ReportTitle.replace(/ /g, '_') + '_' + todayDt;
-
-			// 	//Initialize file format you want csv or xls
-			// 	var uri = 'data:text/csv;charset=utf-8,' + escape(CSV);
-
-			// 	// Now the little tricky part.
-			// 	// you can use either>> window.open(uri);
-			// 	// but this will not work in some browsers
-			// 	// or you will not get the correct file extension
-
-			// 	//this trick will generate a temp <a /> tag
-			// 	var link = document.createElement('a');
-			// 	link.href = uri;
-
-			// 	//set the visibility hidden so it will not effect on your web-layout
-			// 	link.style = 'visibility:hidden';
-			// 	link.download = fileName + '.csv';
-
-			// 	//this part will append the anchor tag and remove it after automatic click
-			// 	document.body.appendChild(link);
-			// 	link.click();
-			// 	document.body.removeChild(link);
-			// },
+				var link = document.createElement('a');
+				link.href = uri;
+				link.style = 'visibility:hidden';
+				link.download = fileName + '.csv';
+				document.body.appendChild(link);
+				link.click();
+				document.body.removeChild(link);
+			},
 		},
 		created: function() {
 			var self = this;
