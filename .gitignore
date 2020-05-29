@@ -24,3 +24,4 @@ pnpm-debug.log*
 /bin/MEDashboard.dll.config
 /bin/MEDashboard.dll
 /obj/Debug
+obj
