@@ -1,5 +1,15 @@
 <template>
   <v-container fluid>
+    <v-slide-x-reverse-transition>
+      <template v-if="reports.length < 6">
+        <v-card class="text-center me-top-right">
+          <v-card-text>
+            <v-progress-circular :size="50" color="primary" indeterminate></v-progress-circular>
+            <div class="font-weight-bold">Loading Reports...</div>
+          </v-card-text>
+        </v-card>
+      </template>
+    </v-slide-x-reverse-transition>
     <v-row>
       <v-col>
         <acaquicktable
@@ -12,6 +22,13 @@
     </v-row>
   </v-container>
 </template>
+<style scoped>
+.me-top-right {
+  position: absolute;
+  top: -15px;
+  right: 20px;
+}
+</style>
 <script>
 import $ from "jquery";
 import acaquicktable from "@/components/acaquicktable.vue";

@@ -38,6 +38,13 @@
         </template>
       </v-btn>
       <v-toolbar-title>Dashboards</v-toolbar-title>
+      <transition name="slide-y-transition">
+        <template v-if="this.$route.name !='Home'">
+          <v-btn color="teal accent-4" text class="ml-3" @click="changeRt('Home')">
+            <v-icon>mdi-home</v-icon>Home
+          </v-btn>
+        </template>
+      </transition>
       <v-spacer></v-spacer>
       <v-switch v-model="goDark" label="Dark"></v-switch>
     </v-app-bar>
@@ -49,6 +56,7 @@
             <h2 class="display-1 font-weight-light">{{ this.$route.name }}</h2>
           </v-col>
         </v-row>
+
         <v-row align="center" justify="center">
           <v-col class="py-0 px-3">
             <transition name="scroll-x-transition" mode="out-in">
@@ -96,6 +104,12 @@ export default {
     setTimeout(function() {
       self.selRoute = self.$route.name;
     }, 1);
+  },
+  methods: {
+    changeRt(r) {
+      var router = this.$router;
+      router.push({ name: r });
+    }
   },
   watch: {
     $route: function() {
