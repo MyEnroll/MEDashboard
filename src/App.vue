@@ -29,7 +29,13 @@
     </v-navigation-drawer>
 
     <v-app-bar app :color="appBarColor" flat hide-on-scroll>
-      <v-btn @click.stop="drawer = !drawer" fab small color="primary" class="elevation-2 mr-3">
+      <v-btn
+        @click.stop="drawer = !drawer"
+        fab
+        small
+        color="teal accent-4 accent-1"
+        class="elevation-2 mr-3"
+      >
         <template v-if="drawer" mode>
           <v-icon>mdi-chevron-left</v-icon>
         </template>
@@ -40,7 +46,7 @@
       <v-toolbar-title>Dashboards</v-toolbar-title>
       <transition name="slide-y-transition">
         <template v-if="this.$route.name !='Home'">
-          <v-btn color="teal accent-4" text class="ml-3" @click="changeRt('Home')">
+          <v-btn color="teal accent-4 accent-1" text class="ml-3" @click="changeRt('Home')">
             <v-icon>mdi-home</v-icon>Home
           </v-btn>
         </template>
