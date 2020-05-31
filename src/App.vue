@@ -28,7 +28,7 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-app-bar app :color="appBarColor" flat>
+    <v-app-bar app :color="appBarColor" flat hide-on-scroll>
       <v-btn @click.stop="drawer = !drawer" fab small color="primary" class="elevation-2 mr-3">
         <template v-if="drawer" mode>
           <v-icon>mdi-chevron-left</v-icon>

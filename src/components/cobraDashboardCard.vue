@@ -38,7 +38,7 @@
                 style="cursor:pointer;font-size:1rem"
               >
                 <td>
-                  <v-icon :color="getSeriesColor(index)">mdi-square</v-icon>
+                  <v-icon :color="getSeriesColor(item.sort_order)">mdi-square</v-icon>
                 </td>
                 <td>
                   <span v-html="item.reportAbbr" class="font-weight-bold" style="font-size:1.15rem"></span>

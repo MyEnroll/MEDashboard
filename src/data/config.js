@@ -8,6 +8,7 @@ export default {
 			reportAbbr: 'A1',
 			countBill: '',
 			countRec: '',
+			sort_order: 0,
 		},
 		{
 			title: 'Continuant Election Period Ends During Outbreak Period',
@@ -16,6 +17,7 @@ export default {
 			reportAbbr: 'A2',
 			countBill: '',
 			countRec: '',
+			sort_order: 1,
 		},
 		{
 			title: 'Continuant Election Period Ends After Outbreak Period',
@@ -24,6 +26,7 @@ export default {
 			reportAbbr: 'B',
 			countBill: '',
 			countRec: '',
+			sort_order: 2,
 		},
 		{
 			title: 'Active COBRA Participants',
@@ -32,6 +35,7 @@ export default {
 			reportAbbr: 'C',
 			countBill: '',
 			countRec: '',
+			sort_order: 3,
 		},
 		{
 			title:
@@ -41,6 +45,7 @@ export default {
 			reportAbbr: 'D',
 			countBill: '',
 			countRec: '',
+			sort_order: 4,
 		},
 		{
 			title:
@@ -50,6 +55,7 @@ export default {
 			reportAbbr: 'E',
 			countBill: '',
 			countRec: '',
+			sort_order: 5,
 		},
 		{
 			title:
@@ -59,6 +65,7 @@ export default {
 			reportAbbr: 'F',
 			countBill: '',
 			countRec: '',
+			sort_order: 6,
 		},
 	],
 };
