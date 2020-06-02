@@ -11,136 +11,98 @@
         {
             "report_group": "Special Features Issues",
             "details": [{
-                    "report_title": "Locations with school in location name, or teacher in benefit class names where nobody in a location is marked with the Educational Exception indicator",
-                    "loc_count": "44",
-                    "ee_count": "",
-                    "report_help": "The calendar year for educational organizations typically includes extended breaks when classes are not in session and employees do not perform services. Educational organizations cannot reduce an employee's average hours for employment breaks that fall within a look-back measurement period. Therefore, an employer determines the employee's average hours of service by excluding the employment break from the calculation of average hours."
-                },
-                {
-                    "report_title": "Locations with one or more employees who are marked with the Vow of Poverty indicator in 2020 tax year",
-                    "loc_count": "",
-                    "ee_count": "",
-                    "report_help": "The Vow of Poverty allows those whom have taken a Vow of Poverty to not have hours tracked for Health Care Reform Reporting purposes"
-                }
-            ]
+                "report_title": "Locations with school in location name, or teacher in benefit class names where nobody in a location is marked with the Educational Exception indicator",
+                "loc_count": "47",
+                "ee_count": ""
+            }, {
+                "report_title": "Locations with one or more employees who are marked with the Vow of Poverty indicator in 2020 tax year",
+                "loc_count": "0",
+                "ee_count": "0"
+            }]
         },
         {
             "report_group": "Hours Issues",
             "details": [{
-                    "report_title": "Locations with incomplete work hours entry in the past 120-days",
-                    "loc_count": "239",
-                    "ee_count": "5561",
-                    "report_help": "This captures locations that have one or more employees whose hours have not been update for 1 or more months over the past 120-days."
-                },
-                {
-                    "report_title": "Locations with incomplete work hours entry in the past 90-days",
-                    "loc_count": "273",
-                    "ee_count": "6159",
-                    "report_help": "This captures locations that have one or more employees whose hours have not been update for 1 or more months over the past 90-days"
-                },
-                {
-                    "report_title": "Locations are incomplete work hours entry in the past 60-days",
-                    "loc_count": "309",
-                    "ee_count": "7002",
-                    "report_help": "This captures locations that have one or more employees whose hours have not been update for 1 or more months over the past 60-days"
-                },
-                {
-                    "report_title": "Locations with employees assigned a medical plan benefit, but who are not assigned enough average hours to be classified full-time",
-                    "loc_count": "244",
-                    "ee_count": "3237",
-                    "report_help": "This captures locations that have one or more employees who are enrolled in a medical plan but whose average monthly work hours indicate the employee is not full-time. Only full-time employees are eligible for benefits"
-                },
-                {
-                    "report_title": "Locations with employees assigned medical benefits, but no hours applied",
-                    "loc_count": "207",
-                    "ee_count": "2291",
-                    "report_help": "This captures locations that have one or more employees who are enrolled in a medical plan but have no monthly work hours setup. Only full-time employees are eligible for benefits, so these employees need to have work hours added."
-                }
-            ]
+                "report_title": "Locations are incompleted work hours entry in the past 120-days",
+                "loc_count": "428",
+                "ee_count": "19124"
+            }, {
+                "report_title": "Locations are incompleted work hours entry in the past 60-days",
+                "loc_count": "428",
+                "ee_count": "19105"
+            }, {
+                "report_title": "Locations are incompleted work hours entry in the past 90-days",
+                "loc_count": "428",
+                "ee_count": "19111"
+            }, {
+                "report_title": "Locations with employees assigned medical benefit, but are not assigned enough average hours to be classified full-time",
+                "loc_count": "38",
+                "ee_count": "76"
+            }, {
+                "report_title": "Locations with employees assigned medical benefits, but no hours applied",
+                "loc_count": "397",
+                "ee_count": "9266"
+            }]
         },
         {
             "report_group": "Account Setup Issues",
             "details": [{
-                    "report_title": "Locations without EINs assigned",
-                    "loc_count": "101",
-                    "ee_count": "",
-                    "report_help": "This captures locations that have that do not have Employer Identification Numbers (EINs) assigned. EINs are required, in order to prepare employees' 1095 forms and make complete filings with the IRS"
-                },
-                {
-                    "report_title": "Locations without active administrators",
-                    "loc_count": "95",
-                    "ee_count": "",
-                    "report_help": "This captures locations that have that do not have an active Administrator setup. Each location must have at least one active Administrator who is responsible for maintaining data and is the point of contact about employees’ data."
-                },
-                {
-                    "report_title": "Locations with missing legal names",
-                    "loc_count": "",
-                    "ee_count": "",
-                    "report_help": "This captures locations that do not have legal organization names setup. A legal name is required, in order to prepare employees’ 1095 forms and make complete filings with the IRS."
-                },
-                {
-                    "report_title": "Locations without EINs assigned in 2020 tax year for B forms",
-                    "loc_count": "",
-                    "ee_count": "",
-                    "report_help": ""
-                },
-                {
-                    "report_title": "Locations without active administrators in 2020 tax year for B forms",
-                    "loc_count": "",
-                    "ee_count": "",
-                    "report_help": ""
-                },
-                {
-                    "report_title": "Locations with missing legal names in 2020 tax year for B forms",
-                    "loc_count": "",
-                    "ee_count": "",
-                    "report_help": ""
-                }
-            ]
+                "report_title": "Locations without EINs assigned in 2020 tax year for C forms",
+                "loc_count": "102",
+                "ee_count": ""
+            }, {
+                "report_title": "Locations without active administrators in 2020 tax year for C forms",
+                "loc_count": "106",
+                "ee_count": ""
+            }, {
+                "report_title": "Locations with missing legal names in 2020 tax year for C forms",
+                "loc_count": "0",
+                "ee_count": ""
+            }, {
+                "report_title": "Locations without EINs assigned in 2020 tax year for B forms",
+                "loc_count": "11",
+                "ee_count": ""
+            }, {
+                "report_title": "Locations without active administrators in 2020 tax year for B forms",
+                "loc_count": "0",
+                "ee_count": ""
+            }, {
+                "report_title": "Locations with missing legal names in 2020 tax year for B forms",
+                "loc_count": "0",
+                "ee_count": ""
+            }]
         },
         {
             "report_group": "Benefit Plan Assignment Issues",
             "details": [{
-                    "report_title": "Locations with employees having full-time status but no medical plan assigned",
-                    "loc_count": "",
-                    "ee_count": "508",
-                    "report_help": "This captures locations that have employees whose average work hours indicate the employees should be enrolled in the medical plan but are not enrolled."
-                },
-                {
-                    "report_title": "Locations with one or more employees who have lost benefit eligibility",
-                    "loc_count": "",
-                    "ee_count": "4224",
-                    "report_help": "This captures locations that have employees whose average work hours indicate the employees should be enrolled in the medical plan but are not enrolled."
-                },
-                {
-                    "report_title": "Locations with one or more new hires who have become benefit eligible due to Initial Measurement Period Results",
-                    "loc_count": "",
-                    "ee_count": "93",
-                    "report_help": "This captures locations that have employees whose average work hours indicate the employees should be enrolled in the medical plan but are not enrolled."
-                }
-            ]
+                "report_title": "Locations with employees having full-time status but no medical plan assigned",
+                "loc_count": "60",
+                "ee_count": "539"
+            }, {
+                "report_title": "Locations with one or more employees who have lost benefit eligibility",
+                "loc_count": "340",
+                "ee_count": "4205"
+            }, {
+                "report_title": "Locations with one or more new hires who have become benefit eligible due to Initial Measurement Period Results",
+                "loc_count": "49",
+                "ee_count": "103"
+            }]
         },
         {
             "report_group": "Hours File Upload Issues",
             "details": [{
-                    "report_title": "Locations with uploaded work hours in error and requiring review",
-                    "loc_count": "31",
-                    "ee_count": "3102",
-                    "report_help": "This captures locations for which work hours and other data was uploaded but those uploads still carry errors that the Administrator who performed the uploads should review and manage, accordingly."
-                },
-                {
-                    "report_title": "Locations with one or more recurring errors as measured over the 2 most current uploads",
-                    "loc_count": "",
-                    "ee_count": "",
-                    "report_help": "This captures locations for which work hours and other data was uploaded but those uploads still carry errors that the Administrator who performed the uploads should review and manage, accordingly."
-                },
-                {
-                    "report_title": "Locations that have a history of uploading work hours, but haven’t used the upload application in more than 45-days",
-                    "loc_count": "104",
-                    "ee_count": "",
-                    "report_help": "This captures locations that have used the online work hours upload application but haven’t used the application in more than 45-days. This is not an error nor necessarily a problem because some administrators only use the upload application periodically or annually. Nonetheless, we want you to know about this lack of use, in case you believe updates should be occurring more frequently."
-                }
-            ]
+                "report_title": "Locations with uploaded work hours in error and requiring review",
+                "loc_count": "31",
+                "ee_count": "3102"
+            }, {
+                "report_title": "Locations with one or more recurring errors as measured over the 2 most current uploads",
+                "loc_count": "0",
+                "ee_count": ""
+            }, {
+                "report_title": "Locations that have a history of uploading work hours but haven't used the upload application in more than 45-days",
+                "loc_count": "106",
+                "ee_count": ""
+            }]
         }
     ]
 }

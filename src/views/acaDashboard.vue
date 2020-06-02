@@ -22,8 +22,35 @@
 					:reports="item.details"
 					:reporthdr="item.report_group"
 					:acctSelection="acctSelection"
+					@opendetails="detailsDialog"
 				/>
 			</v-col>
+		</v-row>
+		<v-row justify="center">
+			<v-dialog v-model="detailDialog" max-width="800px" top>
+				<v-card>
+					<v-card-title>
+						<span class="headline pr-5">{{ detailTitle }}</span>
+						<v-spacer></v-spacer>
+						<v-btn
+							@click="detailDialog = !detailDialog"
+							icon
+							absolute
+							top
+							right
+						>
+							<v-icon>
+								mdi-close
+							</v-icon>
+						</v-btn>
+					</v-card-title>
+					<v-card-text>
+						<template v-if="detailDialog">
+							<fusionchart :chartdata="chartData" ref="fusionchart" />
+						</template>
+					</v-card-text>
+				</v-card>
+			</v-dialog>
 		</v-row>
 	</v-container>
 </template>
@@ -37,19 +64,53 @@
 <script>
 	import $ from 'jquery';
 	import acaquicktable from '@/components/acaquicktable.vue';
+	import fusionchart from '@/components/fusionChart.vue';
 	export default {
 		name: 'acaDashboard',
 		props: ['acctSelection'],
 		components: {
 			acaquicktable,
+			fusionchart,
 		},
 		data: () => ({
 			reports: [],
+			detailDialog: false,
+			detailTitle: '',
+			detailLocCnt: null,
+			detailEECnt: null,
+			chartData: [
+				{
+					label: 'Affected Locations',
+					value: '',
+				},
+				{
+					label: 'Total Locations',
+					value: '',
+				},
+			],
 		}),
 		created: function() {
 			this.getData();
 		},
+		watch: {
+			detailsDialog: function() {
+				if (!this.detailDialog) {
+					this.chartData[0].value = '';
+					this.chartData[1].value = '';
+				}
+			},
+		},
 		methods: {
+			detailsDialog(...args) {
+				var [w, x, y, z] = args;
+				var self = this;
+				this.detailDialog = z;
+				this.detailTitle = w;
+				this.detailLocCnt = x;
+				this.detailEECnt = y;
+				self.chartData[0].value = x;
+				self.chartData[1].value = y;
+			},
 			getData: function() {
 				var self = this;
 				if (
