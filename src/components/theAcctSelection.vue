@@ -46,19 +46,38 @@ export default {
   methods: {
     LoadMasterAccounts: function() {
       var self = this;
-      $.ajax({
-        type: "POST",
-        url: "WebMethods.aspx/GetMasterAccounts",
-        data: JSON.stringify({}),
-        contentType: "application/json; charset=utf-8"
-      })
-        .fail(function() {
-          alert("failed to retrieve list of accounts");
+      if (
+        window.location.href.toLowerCase().indexOf("bastest.com") > -1 ||
+        window.location.href.toLowerCase().indexOf("myenroll.com") > -1
+      ) {
+        $.ajax({
+          type: "POST",
+          url: "WebMethods.aspx/GetMasterAccounts",
+          data: JSON.stringify({}),
+          contentType: "application/json; charset=utf-8"
         })
-        .done(function(n) {
-          self.masterAcctList = JSON.parse(n.d);
-        });
+          .fail(function() {
+            alert("failed to retrieve list of accounts");
+          })
+          .done(function(n) {
+            self.masterAcctList = JSON.parse(n.d);
+          });
+      } else {
+        $.getJSON("./data/masterAcctsSample.json", function(n) {
+          self.masterAcctList = n.accounts;
+        })
+          .fail(function() {
+            alert("failed to retrieve list of accounts");
+          })
+          .done(function(n) {
+            self.masterAcctList = JSON.parse(n.d);
+          });
+      }
     }
+  },
+  created: function() {
+    var self = this;
+    self.LoadMasterAccounts();
   },
   watch: {
     masterSelected: function() {
