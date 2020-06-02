@@ -10,7 +10,31 @@
             :items="reports"
             :search="search"
             hide-default-footer
-          ></v-data-table>
+          >
+            <template v-slot:item.report_title="{ item }">
+              {{item.report_title}}
+              <template v-if="item.report_help != ''">
+                <v-menu offset-y>
+                  <template v-slot:activator="{ on }">
+                    <v-btn color="primary" dark v-on="on" icon>
+                      <v-icon>mdi-information</v-icon>
+                    </v-btn>
+                  </template>
+                  <v-card style="max-width:350px">
+                    <v-card-text v-text="item.report_help"></v-card-text>
+                  </v-card>
+                </v-menu>
+              </template>
+            </template>
+            <template v-slot:item.loc_count="{ item }">
+              <template v-if="item.loc_count != ''">{{numberWithCommas(item.loc_count)}}</template>
+              <template v-else>N/A</template>
+            </template>
+            <template v-slot:item.ee_count="{ item }">
+              <template v-if="item.ee_count != ''">{{numberWithCommas(item.ee_count)}}</template>
+              <template v-else>N/A</template>
+            </template>
+          </v-data-table>
         </v-card>
       </transition>
     </v-col>
@@ -49,10 +73,15 @@ export default {
       ]
     };
   },
+  methods: {
+    numberWithCommas: function(x) {
+      return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+  },
   mounted: function() {
     var self = this;
     self.show = true;
   },
-  props: ["reporthdr", "reports"]
+  props: ["reporthdr", "reports", "acctSelection"]
 };
 </script>

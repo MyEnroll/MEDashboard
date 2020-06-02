@@ -2,7 +2,7 @@
 	<v-container fluid>
 		<v-row>
 			<v-col>
-				<cobraDash />
+				<cobraDash :acctSelection="acctSelection" />
 			</v-col>
 		</v-row>
 	</v-container>
@@ -14,6 +14,7 @@
 	import cobraDash from '@/components/cobraDashboardCard.vue';
 	export default {
 		name: 'cobraDashboard',
+		props: ['acctSelection'],
 		components: {
 			cobraDash,
 		},
