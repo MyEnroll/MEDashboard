@@ -2,9 +2,10 @@
   <v-row>
     <v-col>
       <transition name="fade">
-        <v-card v-if="show">
+        <v-card v-if="show" outlined>
           <v-card-title>{{ reporthdr }}</v-card-title>
           <v-data-table
+            class="elevation-0"
             disable-sort
             :headers="headers"
             :items="reports"

@@ -9,8 +9,8 @@
   },
   "dependencies": {
     "apexcharts": "^3.19.2",
-    "axios": "^0.19.2",
     "core-js": "^3.6.5",
+    "fusioncharts": "^3.15.1-sr.1",
     "jquery": "^3.5.1",
     "uikit": "^3.5.3",
     "vue": "^2.6.11",

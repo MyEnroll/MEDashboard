@@ -17,7 +17,7 @@
         color="blue-grey darken-4"
         dark
         class="overflow-hidden"
-        elevation="10"
+        outlined
       >
         <apexchart
           ref="cobrachart"
