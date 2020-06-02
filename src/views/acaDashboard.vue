@@ -46,7 +46,11 @@
 					</v-card-title>
 					<v-card-text>
 						<template v-if="detailDialog">
-							<fusionchart :chartdata="chartData" ref="fusionchart" />
+							<fusionchart
+								:chartdata="chartData"
+								:chartType="chartType"
+								ref="fusionchart"
+							/>
 						</template>
 					</v-card-text>
 				</v-card>
@@ -88,6 +92,7 @@
 					value: '',
 				},
 			],
+			chartType: '',
 		}),
 		created: function() {
 			this.getData();

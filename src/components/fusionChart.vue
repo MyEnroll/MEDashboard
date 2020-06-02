@@ -13,10 +13,10 @@
 
 	export default {
 		name: 'detailChart',
-		props: ['chartdata'],
+		props: ['chartdata', 'chartType'],
 		data() {
 			return {
-				type: 'pie2d',
+				type: this.chartType,
 				renderAt: 'chart-container',
 				width: '100%',
 				height: '350',

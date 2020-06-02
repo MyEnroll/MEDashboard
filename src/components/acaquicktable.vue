@@ -24,7 +24,7 @@
 											</v-btn>
 										</template>
 										<v-card style="max-width:350px">
-											<v-card-text v-text="item.report_help"></v-card-text>
+											<v-card-text v-html="item.report_help"></v-card-text>
 										</v-card>
 									</v-menu>
 								</template>
@@ -61,6 +61,9 @@
 	}
 	.v-data-table__mobile-row__cell {
 		max-width: 70% !important;
+	}
+	.v-data-table__wrapper tr {
+		cursor: pointer;
 	}
 	@media only screen and (min-width: 600px) {
 		.v-data-table__wrapper tr td:first-child {
