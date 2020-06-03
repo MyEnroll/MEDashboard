@@ -1,50 +1,36 @@
 <template>
-	<div>hi</div>
+  <fusioncharts
+    :type="type"
+    :width="width"
+    :height="height"
+    :dataFormat="dataFormat"
+    :dataSource="dataSource"
+  ></fusioncharts>
 </template>
-// STEP 1: to include the dependencies
 <script>
-	import Vue from 'vue';
-	import VueFusionCharts from 'vue-fusioncharts';
-	import FusionCharts from 'fusioncharts';
-	import Column2D from 'fusioncharts/fusioncharts.charts';
-	import FusionTheme from 'fusioncharts/themes/fusioncharts.theme.fusion';
+import Vue from "vue";
 
-	Vue.use(VueFusionCharts, FusionCharts, Column2D, FusionTheme);
+Vue.component("fusioncharts");
 
-	export default {
-		name: 'detailChart',
-		props: ['chartdata', 'chartType'],
-		data() {
-			return {
-				type: this.chartType,
-				renderAt: 'chart-container',
-				width: '100%',
-				height: '350',
-				dataFormat: 'json',
-				dataSource: {
-					chart: {
-						yaxisname: 'Count',
-						theme: 'fusion',
-					},
-					data: this.chartdata,
-				},
-			};
-		},
-	};
+export default {
+  name: "detailChart",
+  props: ["chartdata", "chartType"],
+  data() {
+    return {
+      type: this.chartType,
+      renderAt: "chart-container",
+      width: "100%",
+      height: "500",
+      dataFormat: "json",
+      dataSource: {
+        chart: {
+          yaxisname: "Count",
+          theme: "fusion"
+        },
+        data: this.chartdata
+      }
+    };
+  }
+};
 </script>
 
-//STEP 4: Render the chart
-<template>
-	<div id="detailChart">
-		<div id="chart-container">
-			<fusioncharts
-				:type="type"
-				:width="width"
-				:height="height"
-				:dataformat="dataFormat"
-				:dataSource="dataSource"
-			>
-			</fusioncharts>
-		</div>
-	</div>
-</template>

@@ -5,7 +5,8 @@
                 "report_title": "Employees queued for more than 30 days who need to be added to MyEnroll from UHC.",
                 "loc_count": "",
                 "ee_count": "358",
-                "report_help": "This dashboard item illustrates the number of employees' location administrators have added to UHC medical but have not kept updated in MyEnroll<sup>360</sup>. Each month, BAS imports data from your medical plan carrier(s). Once the import is complete, MyEnroll<sup>360</sup> provide you with a report and instructions to use MyEnroll<sup>360</sup> to further identify these imported employees (e.g., home addresses, location assignments) and transfer them into their respective locations."
+                "report_help": "This dashboard item illustrates the number of employees' location administrators have added to UHC medical but have not kept updated in MyEnroll<sup>360</sup>. Each month, BAS imports data from your medical plan carrier(s). Once the import is complete, MyEnroll<sup>360</sup> provide you with a report and instructions to use MyEnroll<sup>360</sup> to further identify these imported employees (e.g., home addresses, location assignments) and transfer them into their respective locations.",
+                "chart_type": "pie2d"
             }]
         },
         {
