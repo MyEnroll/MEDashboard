@@ -31,17 +31,13 @@
               </template>
               <template v-slot:item.loc_count="{ item }">
                 <template v-if="item.loc_count != ''">
-                  {{
-                  numberWithCommas(item.loc_count)
-                  }}
+                  {{ numberWithCommas(item.loc_count) }}
                 </template>
                 <template v-else>N/A</template>
               </template>
               <template v-slot:item.ee_count="{ item }">
                 <template v-if="item.ee_count != ''">
-                  {{
-                  numberWithCommas(item.ee_count)
-                  }}
+                  {{ numberWithCommas(item.ee_count) }}
                 </template>
                 <template v-else>N/A</template>
               </template>

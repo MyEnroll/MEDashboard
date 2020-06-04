@@ -14,19 +14,19 @@
       placeholder="Start typing to Search"
     >
       <template v-slot:selection="data">
-        <div
-          class="text-truncate text-no-wrap"
-        >{{ data.item.ACCOUNT_NAME }} - {{ data.item.ACCOUNT_NUMBER }}</div>
+        <div class="text-truncate text-no-wrap">
+          {{ data.item.ACCOUNT_NAME }} - {{ data.item.ACCOUNT_NUMBER }}
+        </div>
       </template>
       <template v-slot:item="data">
-        <div
-          class="text-truncate text-no-wrap"
-        >{{ data.item.ACCOUNT_NAME }} - {{ data.item.ACCOUNT_NUMBER }}</div>
+        <div class="text-truncate text-no-wrap">
+          {{ data.item.ACCOUNT_NAME }} - {{ data.item.ACCOUNT_NUMBER }}
+        </div>
       </template>
       <template v-slot:search="data">
-        <div
-          class="text-truncate text-no-wrap"
-        >{{ data.item.ACCOUNT_NAME }} - {{ data.item.ACCOUNT_NUMBER }}</div>
+        <div class="text-truncate text-no-wrap">
+          {{ data.item.ACCOUNT_NAME }} - {{ data.item.ACCOUNT_NUMBER }}
+        </div>
       </template>
     </v-autocomplete>
   </div>

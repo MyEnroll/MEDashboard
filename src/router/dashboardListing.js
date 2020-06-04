@@ -16,5 +16,14 @@ export default {
 			desc: 'Find all your ACA setup and reporting metrics here.',
 			active: 1,
 		},
+		{
+			path: '/fsamods',
+			name: 'FSA Modifications',
+			displayName: 'FSA Modifications',
+			icon: 'mdi-view-dashboard',
+			desc:
+				'Review adjustments made to Employee FSAs under the new federal guidlines.',
+			active: 1,
+		},
 	],
 };

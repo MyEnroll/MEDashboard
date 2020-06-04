@@ -27,5 +27,13 @@ export default new VueRouter({
 					/* webpackChunkName: "cobra_dashboard" */ '../views/cobraDashboard.vue'
 				),
 		},
+		{
+			path: '/fsamods',
+			name: 'FSA Modifications',
+			component: () =>
+				import(
+					/* webpackChunkName: "fsa_mods" */ '../views/fsaModification.vue'
+				),
+		},
 	],
 });

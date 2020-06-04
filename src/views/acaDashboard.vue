@@ -4,7 +4,11 @@
       <template v-if="reports.length < 6">
         <v-card class="text-center me-top-right">
           <v-card-text>
-            <v-progress-circular :size="50" color="primary" indeterminate></v-progress-circular>
+            <v-progress-circular
+              :size="50"
+              color="primary"
+              indeterminate
+            ></v-progress-circular>
             <div class="font-weight-bold">Loading Reports...</div>
           </v-card-text>
         </v-card>
@@ -28,13 +32,23 @@
           <v-card-title>
             <span class="headline pr-5">{{ detailTitle }}</span>
             <v-spacer></v-spacer>
-            <v-btn @click="detailDialog = !detailDialog" icon absolute top right>
+            <v-btn
+              @click="detailDialog = !detailDialog"
+              icon
+              absolute
+              top
+              right
+            >
               <v-icon>mdi-close</v-icon>
             </v-btn>
           </v-card-title>
           <v-card-text>
             <template v-if="detailDialog">
-              <fusionchart :chartdata="chartData" :chartType="chartType" ref="fusionchart" />
+              <fusionchart
+                :chartdata="chartData"
+                :chartType="chartType"
+                ref="fusionchart"
+              />
               <fusionwidget ref="fusionwidget" />
             </template>
           </v-card-text>
