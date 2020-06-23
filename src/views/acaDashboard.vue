@@ -1,29 +1,110 @@
 <template>
   <v-container fluid>
-    <v-slide-x-reverse-transition>
-      <template v-if="reports.length < 6">
-        <v-card class="text-center me-top-right">
+    <v-scroll-x-transition>
+      <template v-if="!allRepsLoaded">
+        <v-card class="loadingCard">
+          <v-scale-transition>
+            <template v-if="!allRepsLoaded">
+              <v-btn absolute icon top right class="m-2" @click="allRepsLoaded = true">
+                <v-icon>mdi-close</v-icon>
+              </v-btn>
+            </template>
+          </v-scale-transition>
+          <v-card-title>Loading Reports...</v-card-title>
           <v-card-text>
-            <v-progress-circular
-              :size="50"
-              color="primary"
-              indeterminate
-            ></v-progress-circular>
-            <div class="font-weight-bold">Loading Reports...</div>
+            <v-list dense disabled>
+              <v-list-item-group>
+                <v-list-item v-for="(item,index) in reportGroups" :key="index">
+                  <v-list-item-icon style="width:24px">
+                    <v-scale-transition leave-absolute>
+                      <template v-if="item.loaded == 0">
+                        <v-progress-circular indeterminate color="primary"></v-progress-circular>
+                      </template>
+                    </v-scale-transition>
+                    <v-scale-transition leave-absolute>
+                      <template v-if="item.loaded == 1">
+                        <v-icon color="success">mdi-check</v-icon>
+                      </template>
+                    </v-scale-transition>
+                    <v-scale-transition leave-absolute>
+                      <template v-if="item.loaded == 2">
+                        <v-icon color="error">mdi-close</v-icon>
+                      </template>
+                    </v-scale-transition>
+                  </v-list-item-icon>
+                  <v-list-item-content>
+                    <v-list-item-title>{{ item.report}}</v-list-item-title>
+                  </v-list-item-content>
+                </v-list-item>
+              </v-list-item-group>
+            </v-list>
           </v-card-text>
         </v-card>
       </template>
-    </v-slide-x-reverse-transition>
+    </v-scroll-x-transition>
     <v-row>
       <v-col>
-        <acaquicktable
-          v-for="(item, index) in reports"
-          :key="index"
-          :reports="item.details"
-          :reporthdr="item.report_group"
-          :acctSelection="acctSelection"
-          @opendetails="detailsDialog"
-        />
+        <div>
+          <transition name="fade">
+            <v-container>
+              <v-slide-x-reverse-transition>
+                <template v-if="allRepsLoaded">
+                  <v-btn
+                    fixed
+                    class="mt-15 mr-5"
+                    top
+                    right
+                    text
+                    color="deep-purple accent-4"
+                    @click="allRepsLoaded = false"
+                  >Status</v-btn>
+                </template>
+              </v-slide-x-reverse-transition>
+
+              <acaquicktable
+                v-for="(item, index) in reports"
+                :key="index"
+                :reports="item.details"
+                :reporthdr="item.report_group"
+                @opendetails="detailsDialog"
+              />
+              <v-dialog v-model="dialog" persistent max-width="290">
+                <v-card>
+                  <v-card-title class="headline">Sample Data</v-card-title>
+                  <v-card-text>The data presented in this application is for demo purposes only.</v-card-text>
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="green darken-1" text @click="dialog = false">I Understand</v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+
+              <v-row justify="center">
+                <v-dialog v-model="detailDialog" max-width="800px" top>
+                  <v-card>
+                    <v-card-title>
+                      <span class="headline pr-5">{{ detailTitle }}</span>
+                      <v-spacer></v-spacer>
+                      <v-btn @click="detailDialog = !detailDialog" icon absolute top right>
+                        <v-icon>mdi-close</v-icon>
+                      </v-btn>
+                    </v-card-title>
+                    <v-card-text>
+                      <template v-if="detailDialog">
+                        <fusionchart
+                          :chartdata="chartData"
+                          :chartType="chartType"
+                          ref="fusionchart"
+                        />
+                        <fusionwidget ref="fusionwidget" />
+                      </template>
+                    </v-card-text>
+                  </v-card>
+                </v-dialog>
+              </v-row>
+            </v-container>
+          </transition>
+        </div>
       </v-col>
     </v-row>
     <v-row justify="center">
@@ -32,23 +113,13 @@
           <v-card-title>
             <span class="headline pr-5">{{ detailTitle }}</span>
             <v-spacer></v-spacer>
-            <v-btn
-              @click="detailDialog = !detailDialog"
-              icon
-              absolute
-              top
-              right
-            >
+            <v-btn @click="detailDialog = !detailDialog" icon absolute top right>
               <v-icon>mdi-close</v-icon>
             </v-btn>
           </v-card-title>
           <v-card-text>
             <template v-if="detailDialog">
-              <fusionchart
-                :chartdata="chartData"
-                :chartType="chartType"
-                ref="fusionchart"
-              />
+              <fusionchart :chartdata="chartData" :chartType="chartType" ref="fusionchart" />
               <fusionwidget ref="fusionwidget" />
             </template>
           </v-card-text>
@@ -62,6 +133,13 @@
   position: absolute;
   top: -15px;
   right: 20px;
+}
+.loadingCard {
+  position: fixed;
+  top: 75px;
+  right: 20px;
+  max-width: 350px;
+  z-index: 999;
 }
 </style>
 <script>
@@ -87,6 +165,41 @@ export default {
   },
   data: () => ({
     reports: [],
+    dialog: false,
+    reportGroups: [
+      {
+        report: "Carrier Data Reconciliations",
+        loaded: 0,
+        id: 6
+      },
+      {
+        report: "Special Features Issues",
+        loaded: 0,
+        id: 5
+      },
+      {
+        report: "Hours Issues",
+        loaded: 0,
+        id: 2
+      },
+      {
+        report: "Account Setup Issues",
+        loaded: 0,
+        id: 1
+      },
+      {
+        report: "Benefit Plan Assignment Issues",
+        loaded: 0,
+        id: 4
+      },
+      {
+        report: "Hours File Upload Issues",
+        loaded: 0,
+        id: 3
+      }
+    ],
+    allRepsLoaded: false,
+    reportIds: [1, 2, 3, 4, 5, 6],
     detailDialog: false,
     detailTitle: "",
     detailLocCnt: null,
