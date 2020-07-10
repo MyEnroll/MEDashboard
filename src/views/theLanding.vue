@@ -19,18 +19,14 @@
                 class="d-flex transition-fast-in-fast-out green darken-2 v-card--reveal display-3 white--text"
                 style="height: 100%;"
               >
+                <div>Go</div>
                 <div>
-                  Go
-                </div>
-                <div>
-                  <v-icon dark size="50px">
-                    mdi-arrow-right
-                  </v-icon>
+                  <v-icon dark size="50px">mdi-arrow-right</v-icon>
                 </div>
               </div>
             </v-expand-transition>
             <v-card-title v-text="item.name"></v-card-title>
-            <v-card-text v-text="item.desc"> </v-card-text>
+            <v-card-text v-text="item.desc"></v-card-text>
           </v-card>
         </v-hover>
       </v-col>
@@ -67,6 +63,7 @@ export default {
       var router = this.$router;
       router.push({ name: r });
     }
-  }
+  },
+  props: ["goDark"]
 };
 </script>

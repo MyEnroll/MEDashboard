@@ -111,9 +111,6 @@ export default {
   components: {
     acctSelect
   },
-  props: {
-    source: String
-  },
   data: () => ({
     drawer: null,
     goDark: false,
