@@ -15,7 +15,7 @@
               hide-default-footer
             >
               <template v-slot:item.report_title="{ item }">
-                {{ item.report_title }}
+                <span v-html="item.report_title"></span>
                 <template v-if="item.report_help != ''">
                   <v-menu offset-y>
                     <template v-slot:activator="{ on }">
@@ -31,13 +31,17 @@
               </template>
               <template v-slot:item.loc_count="{ item }">
                 <template v-if="item.loc_count != ''">
-                  {{ numberWithCommas(item.loc_count) }}
+                  {{
+                  numberWithCommas(item.loc_count)
+                  }}
                 </template>
                 <template v-else>N/A</template>
               </template>
               <template v-slot:item.ee_count="{ item }">
                 <template v-if="item.ee_count != ''">
-                  {{ numberWithCommas(item.ee_count) }}
+                  {{
+                  numberWithCommas(item.ee_count)
+                  }}
                 </template>
                 <template v-else>N/A</template>
               </template>
@@ -70,6 +74,9 @@
     width: 80%;
   }
 }
+.v-data-table__mobile-row {
+  height: auto !important;
+}
 </style>
 <script>
 export default {
@@ -94,20 +101,23 @@ export default {
       return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     },
     detailExpose: function(value) {
-      this.$emit(
-        "opendetails",
-        value.report_title,
-        value.loc_count,
-        value.ee_count,
-        true,
-        value.chart_type
-      );
+      if (!this.downloadDialog) {
+        this.$emit(
+          "opendetails",
+          value.report_title,
+          value.loc_count,
+          value.ee_count,
+          true,
+          value.chart_type,
+          value.detail_rpt_id
+        );
+      }
     }
   },
   mounted: function() {
     var self = this;
     self.show = true;
   },
-  props: ["reporthdr", "reports", "acctSelection"]
+  props: ["reporthdr", "reports", "acctSelection", "downloadDialog"]
 };
 </script>
