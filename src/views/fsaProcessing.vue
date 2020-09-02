@@ -16,12 +16,18 @@
 					</v-card-text>
 				</v-card>
 			</v-col>
-			<v-col cols="12" md="4" v-for="item in procTotalsProc" :key="item.name">
+			<v-col
+				cols="12"
+				md="4"
+				sm="6"
+				v-for="item in procTotalsProc"
+				:key="item.name"
+			>
 				<v-card>
 					<v-card-title>
 						<span>{{ item.name }}</span>
 						<v-spacer></v-spacer>
-						<v-avatar size="36" color="primary" dark>
+						<v-avatar size="36" :color="item.color" dark>
 							<v-icon dark>mdi-account-circle</v-icon>
 						</v-avatar>
 					</v-card-title>
@@ -124,13 +130,14 @@
 				return self.processors1.map(function (n) {
 					var x = self.timeline.dataSource.dataset.filter(function (m) {
 						return m.seriesname == n;
-					})[0].data;
+					})[0];
 
 					return {
 						name: n,
-						value: _.sumBy(x, function (l) {
+						value: _.sumBy(x.data, function (l) {
 							return Number(l.value);
 						}),
+						color: x.anchorbgcolor,
 					};
 				});
 			},
