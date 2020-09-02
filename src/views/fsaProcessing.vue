@@ -19,7 +19,11 @@
 			<v-col cols="12" md="4" v-for="item in procTotalsProc" :key="item.name">
 				<v-card>
 					<v-card-title>
-						{{ item.name }}
+						<span>{{ item.name }}</span>
+						<v-spacer></v-spacer>
+						<v-avatar size="36" color="primary" dark>
+							<v-icon dark>mdi-account-circle</v-icon>
+						</v-avatar>
 					</v-card-title>
 					<v-card-text
 						class="text-center pa-5 display-md-2 display-1 font-weight-light"
@@ -43,20 +47,36 @@
 
 	export default {
 		name: 'fsaProcessing',
+		watch: {
+			theme() {
+				if (this.theme) {
+					this.timeline.dataSource.chart.bgColor = '#1e1e1e';
+					this.timeline.dataSource.chart.toolTipBgColor = '#1e1e1e';
+					this.timeline.dataSource.chart.baseFontColor = '#ffffff';
+				} else {
+					this.timeline.dataSource.chart.bgColor = '#ffffff';
+					this.timeline.dataSource.chart.toolTipBgColor = '#ffffff';
+					this.timeline.dataSource.chart.baseFontColor = '#1e1e1e';
+				}
+			},
+		},
 		data() {
 			return {
 				processors: ['Paulette', 'Chau', 'Kaitlyn'],
 				timeline: {
-					type: 'msline',
+					type: 'msspline',
 					width: '100%',
 					height: '450',
 					dataFormat: 'json',
 					dataSource: {
 						chart: {
+							bgColor: '#ffffff',
+							baseFontColor: '#1e1e1e',
 							yaxisname: 'Claims Processed',
 							showhovereffect: '1',
 							drawcrossline: '1',
-							plottooltext: '<b>$dataValue</b> of youth were on $seriesName',
+							plottooltext:
+								'<b>$dataValue</b> of claims were processed by $seriesName',
 							theme: 'fusion',
 						},
 						categories: [
@@ -79,8 +99,20 @@
 				'8/28/2020',
 			]);
 			self.setChartData();
+			if (this.theme) {
+				this.timeline.dataSource.chart.bgColor = '#1e1e1e';
+				this.timeline.dataSource.chart.toolTipBgColor = '#1e1e1e';
+				this.timeline.dataSource.chart.baseFontColor = '#ffffff';
+			} else {
+				this.timeline.dataSource.chart.bgColor = '#ffffff';
+				this.timeline.dataSource.chart.toolTipBgColor = '#ffffff';
+				this.timeline.dataSource.chart.baseFontColor = '#1e1e1e';
+			}
 		},
 		computed: {
+			theme() {
+				return this.$store.getters.darkTheme;
+			},
 			procTotalsProc() {
 				var self = this;
 				return self.procTotals.filter(function (n) {
@@ -115,6 +147,7 @@
 				self.timeline.dataSource.dataset = [
 					{
 						seriesname: 'Kaitlyn',
+						anchorbgcolor: '#5D62B5',
 						data: [
 							{ value: '62' },
 							{ value: '64' },
@@ -125,6 +158,7 @@
 					},
 					{
 						seriesname: 'Chau',
+						anchorbgcolor: '#29C3BE',
 						data: [
 							{ value: '16' },
 							{ value: '28' },
@@ -135,6 +169,7 @@
 					},
 					{
 						seriesname: 'Paulette',
+						anchorbgcolor: '#F2726F',
 						data: [
 							{ value: '20' },
 							{ value: '22' },
@@ -145,6 +180,7 @@
 					},
 					{
 						seriesname: 'Total',
+						anchorbgcolor: '#FFC533',
 						data: [
 							{ value: '98' },
 							{ value: '114' },
