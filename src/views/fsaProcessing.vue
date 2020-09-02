@@ -16,7 +16,7 @@
 					</v-card-text>
 				</v-card>
 			</v-col>
-			<v-col cols="12" md="4" v-for="item in procTotals" :key="item.name">
+			<v-col cols="12" md="4" v-for="item in procTotalsProc" :key="item.name">
 				<v-card>
 					<v-card-title>
 						{{ item.name }}
@@ -71,10 +71,22 @@
 		},
 		created: function () {
 			var self = this;
-			self.setCategories(['2012', '2013', '2014', '2015', '2016']);
+			self.setCategories([
+				'8/24/2020',
+				'8/25/2020',
+				'8/26/2020',
+				'8/27/2020',
+				'8/28/2020',
+			]);
 			self.setChartData();
 		},
 		computed: {
+			procTotalsProc() {
+				var self = this;
+				return self.procTotals.filter(function (n) {
+					return n.name != 'Total';
+				});
+			},
 			procTotals() {
 				var self = this;
 				return self.processors1.map(function (n) {
@@ -129,6 +141,16 @@
 							{ value: '27' },
 							{ value: '22' },
 							{ value: '29' },
+						],
+					},
+					{
+						seriesname: 'Total',
+						data: [
+							{ value: '98' },
+							{ value: '114' },
+							{ value: '125' },
+							{ value: '130' },
+							{ value: '161' },
 						],
 					},
 				];
