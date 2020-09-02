@@ -25,8 +25,8 @@
                 </div>
               </div>
             </v-expand-transition>
-            <v-card-title v-text="item.name"></v-card-title>
-            <v-card-text v-text="item.desc"></v-card-text>
+            <v-card-title v-html="item.name"></v-card-title>
+            <v-card-text v-html="item.desc"></v-card-text>
           </v-card>
         </v-hover>
       </v-col>
@@ -64,6 +64,5 @@ export default {
       router.push({ name: r });
     }
   },
-  props: ["goDark"]
 };
 </script>

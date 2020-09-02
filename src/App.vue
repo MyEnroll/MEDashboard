@@ -3,16 +3,7 @@
     <v-navigation-drawer width="350" v-model="drawer" app color="blue-grey darken-4" dark>
       <v-list>
         <v-subheader class="subtitle-1">Account</v-subheader>
-        <v-list-item>
-          <v-container fluid>
-            <v-row>
-              <v-col class="pa-0">
-                <acctSelect class="text-truncate" @selection="acctAlert" />
-              </v-col>
-            </v-row>
-          </v-container>
-        </v-list-item>
-        <v-divider></v-divider>
+      
         <v-subheader class="subtitle-1">Available Dashboards</v-subheader>
         <v-list-item-group v-model="selRoute">
           <router-link :to="{ name: 'Home' }">
@@ -78,7 +69,7 @@
         <v-row align="center" justify="center" class="fill-height">
           <v-col class="py-0 px-3">
             <transition name="scroll-x-transition" mode="out-in" leave-absolute>
-              <router-view :goDark="goDark" :acctSelection="acctSelection"></router-view>
+              <router-view ></router-view>
             </transition>
           </v-col>
         </v-row>
@@ -106,11 +97,7 @@
 
 <script>
 import routes from "@/router/dashboardListing.js";
-import acctSelect from "@/components/theAcctSelection.vue";
 export default {
-  components: {
-    acctSelect
-  },
   data: () => ({
     drawer: null,
     goDark: false,

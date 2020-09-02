@@ -28,12 +28,13 @@ export default new VueRouter({
 				),
 		},
 		{
-			path: '/fsamods',
-			name: 'FSA Modifications',
+			path: '/fsa',
+			name: 'FSA Processing',
 			component: () =>
 				import(
-					/* webpackChunkName: "fsa_mods" */ '../views/fsaModification.vue'
+					/* webpackChunkName: "fsa_dashboard" */ '../views/fsaProcessing.vue'
 				),
 		},
+		
 	],
 });

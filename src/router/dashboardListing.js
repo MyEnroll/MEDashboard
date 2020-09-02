@@ -17,13 +17,13 @@ export default {
 			active: 1,
 		},
 		{
-			path: '/fsamods',
-			name: 'FSA Modifications',
-			displayName: 'FSA Modifications',
+			path: '/fsa',
+			name: 'FSA Processing',
+			displayName: 'FSA Processing',
 			icon: 'mdi-view-dashboard',
-			desc:
-				'Review adjustments made to Employee FSAs under the new federal guidlines.',
+			desc: 'Internal Dashboard for reviewing the FSA Processing Team&apos;s productivity.',
 			active: 1,
 		},
+		
 	],
 };
