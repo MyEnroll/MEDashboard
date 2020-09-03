@@ -44,6 +44,7 @@
               <template v-if="dateRangeText2 != '' || sample.length > 0">
                 <fusioncharts
                   key="loaded"
+                  @dataplotClick="test"
                   ref="timeline"
                   :type="timeline.type"
                   :width="timeline.width"
@@ -99,36 +100,6 @@
               <v-card-text
                 class="text-center pa-5 display-md-2 display-1 font-weight-light"
               >{{ numberWithCommas(item.value) }}</v-card-text>
-            </v-card>
-          </v-col>
-        </v-row>
-      </template>
-    </v-slide-x-transition>
-    <v-slide-x-transition>
-      <template v-if="sample.length > 0">
-        <v-row>
-          <v-col cols="12">
-            <v-toolbar dense flat>
-              <v-toolbar-title>Claims Processed List</v-toolbar-title>
-              <v-spacer></v-spacer>
-              <v-btn text color="deep-purple accent-4" @click="exportCSV">
-                <v-icon>mdi-download</v-icon>Download
-              </v-btn>
-            </v-toolbar>
-          </v-col>
-          <v-col cols="12">
-            <v-card>
-              <v-card-title>
-                <v-spacer></v-spacer>
-                <v-text-field
-                  v-model="clFilter"
-                  append-icon="mdi-magnify"
-                  label="Search"
-                  single-line
-                  hide-details
-                ></v-text-field>
-              </v-card-title>
-              <v-data-table :headers="dtlHeaders" :items="sample" :search="clFilter"></v-data-table>
             </v-card>
           </v-col>
         </v-row>
@@ -283,12 +254,6 @@ export default {
     }
   },
   computed: {
-    dtlHeaders() {
-      var self = this;
-      return Object.keys(self.sample[0]).map(function (n) {
-        return { text: n.replace(/_/gi, " "), sortable: true, value: n };
-      });
-    },
     dateRangeText1() {
       var self = this;
       if (self.dateRange.length > 0) {
@@ -354,7 +319,7 @@ export default {
       return {
         seriesname: "Chau",
         anchorBgColor: "#5D62B5",
-        data: self.test.map(function (n) {
+        data: self.procNum.map(function (n) {
           return {
             value: n.chau.toString(),
           };
@@ -366,7 +331,7 @@ export default {
       return {
         seriesname: "Kaitlyn",
         anchorBgColor: "#29C3BE",
-        data: self.test.map(function (n) {
+        data: self.procNum.map(function (n) {
           return {
             value: n.kaitlyn.toString(),
           };
@@ -378,7 +343,7 @@ export default {
       return {
         seriesname: "Paulette",
         anchorBgColor: "#F2726F",
-        data: self.test.map(function (n) {
+        data: self.procNum.map(function (n) {
           return {
             value: n.paulette.toString(),
           };
@@ -390,7 +355,7 @@ export default {
       return {
         seriesname: "Total",
         anchorBgColor: "#ffc533",
-        data: self.test.map(function (n) {
+        data: self.procNum.map(function (n) {
           return {
             value: n.total.toString(),
           };
@@ -398,7 +363,7 @@ export default {
       };
     },
 
-    test() {
+    procNum() {
       var self = this;
       return _.sortBy(
         _.map(_.countBy(self.sample, "ADD_DATE_SIMPLIFIED"), (val, key) => ({
@@ -465,6 +430,17 @@ export default {
     },
   },
   methods: {
+    test(e) {
+      var proc =
+        e.data.datasetName == "Chau"
+          ? "LeCha"
+          : e.data.datasetName == "Kaitlyn"
+          ? "IncKai"
+          : e.data.datasetName == "Paulette"
+          ? "PauPry"
+          : "Total";
+      console.log(proc);
+    },
     procName(r) {
       switch (r) {
         case "LeCha":
