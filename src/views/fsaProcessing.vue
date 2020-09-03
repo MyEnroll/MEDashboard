@@ -112,7 +112,6 @@ export default {
     }
   },
   computed: {
-    test2() {},
     test() {
       var self = this;
       return _.map(
