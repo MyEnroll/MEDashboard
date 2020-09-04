@@ -1,7 +1,13 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import axios from 'axios'
 
 Vue.use(Vuex);
+Vue.config.devtools =
+	location.href.indexOf('bastest.com') > -1 ||
+	location.href.indexOf('localhost') > -1 ?
+	true :
+	false;
 
 export default new Vuex.Store({
 	state: {
@@ -16,7 +22,7 @@ export default new Vuex.Store({
 		setAccountName(state, payload) {
 			state.account_name = payload;
 		},
-		setAccountNum(state, payload) {
+		setAccountNumber(state, payload) {
 			state.account_number = payload;
 		},
 	},
@@ -24,12 +30,14 @@ export default new Vuex.Store({
 		setDarkTheme(state, payload) {
 			state.commit('setDarkTheme', payload.theme);
 		},
-		setAccountName(state, payload) {
-			state.commit('setAccountName', payload.name);
-		},
-		setAccountNum(state, payload) {
+		setChosenAcct(state, payload) {
 			state.commit('setAccountNumber', payload.acct);
-		},
+			state.commit('setAccountName', payload.name);
+			axios.post('/web_projects/MainHomePage/WebMethods.aspx/SetAccountSelectedSession', {
+				selected_account_num: payload.acct,
+				display_account: ''
+			})
+		}
 	},
 	getters: {
 		darkTheme(state) {

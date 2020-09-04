@@ -167,14 +167,21 @@ th {
 <script>
 import acaquicktable from "@/components/acaquicktable.vue";
 import $ from "jquery";
+import { mapGetters } from "vuex";
 export default {
   name: "quickView",
 
   components: {
-    acaquicktable
+    acaquicktable,
+  },
+  computed: {
+    ...mapGetters(["accountNumber"]),
   },
   watch: {
-    goDark: function() {
+    accountNumber() {
+      this.initRun();
+    },
+    goDark: function () {
       var self = this;
       if (self.goDark) {
         this.$vuetify.theme.dark = true;
@@ -186,19 +193,19 @@ export default {
     },
     reportGroups: {
       deep: true,
-      handler: function() {
+      handler: function () {
         var self = this;
         if (
-          self.reportGroups.filter(function(n) {
+          self.reportGroups.filter(function (n) {
             return n.loaded > 0;
           }).length == 6
         ) {
-          setTimeout(function() {
+          setTimeout(function () {
             self.allRepsLoaded = true;
           }, 2000);
         }
-      }
-    }
+      },
+    },
   },
   data: () => ({
     fileDLPrep: "",
@@ -210,39 +217,39 @@ export default {
         report: "Carrier Data Reconciliations",
         report_sub: "",
         loaded: 0,
-        id: 6
+        id: 6,
       },
       {
         report: "Special Features Issues",
         report_sub: "",
         loaded: 0,
-        id: 5
+        id: 5,
       },
       {
         report: "Hours Issues",
         report_sub: "",
         loaded: 0,
-        id: 2
+        id: 2,
       },
       {
         report: "Account Setup Issues",
         report_sub: "",
         loaded: 0,
-        id: 1
+        id: 1,
       },
       {
         report: "Benefit Plan Assignment Issues",
         report_sub: "",
         loaded: 0,
-        id: 4
+        id: 4,
       },
       {
         report: "Hours File Upload Issues",
         report_sub:
           "This is a big report and might take about a minute to load",
         loaded: 0,
-        id: 3
-      }
+        id: 3,
+      },
     ],
     allRepsLoaded: false,
     reportIds: [1, 2, 3, 4, 5, 6],
@@ -252,10 +259,10 @@ export default {
     selTheme: "Light",
     dialog: false,
     reports: [],
-    reportsDetails: []
+    reportsDetails: [],
   }),
   methods: {
-    exportCSV: function() {
+    exportCSV: function () {
       var self = this;
       var ShowLabel = true;
       var dt = new Date();
@@ -311,7 +318,7 @@ export default {
       self.dlStep = 1;
       self.reportsDetails = [];
     },
-    handleDetails: function(...value) {
+    handleDetails: function (...value) {
       var self = this;
       self.downloadDialog = true;
       self.fileDLPrep = value[0];
@@ -321,15 +328,15 @@ export default {
           "/web_projects/MyEnrollWebService/ACAWebMethod.aspx/GetACAReportData",
         data: JSON.stringify({
           group_id: 206,
-          report_id: value[5]
+          report_id: value[5],
         }),
-        contentType: "application/json; charset=utf-8"
+        contentType: "application/json; charset=utf-8",
       })
-        .done(function(n) {
+        .done(function (n) {
           self.reportsDetails.push(JSON.parse(n.d));
           self.dlStep = 2;
         })
-        .fail(function() {
+        .fail(function () {
           self.dlStep = 3;
         });
     },
@@ -338,34 +345,34 @@ export default {
       self.dlRequest.abort();
       self.resetDL();
     },
-    testDataExport: function(r) {
+    testDataExport: function (r) {
       $.ajax({
         type: "POST",
         url:
           "/web_projects/MyEnrollWebService/ACAWebMethod.aspx/GetACAReportData",
         data: JSON.stringify({
           group_id: 206,
-          report_id: r
+          report_id: r,
         }),
-        contentType: "application/json; charset=utf-8"
-      }).done(function(n) {
+        contentType: "application/json; charset=utf-8",
+      }).done(function (n) {
         // self.reportsDetails.push(JSON.parse(n.d));
         console.log(n.d);
       });
     },
-    recordVisit: function() {
+    recordVisit: function () {
       $.ajax({
         type: "POST",
         url:
           "/web_projects/MyEnrollWebService/TemplateWebMethod.aspx/SavePageHistory",
         data: JSON.stringify({
-          page_id: "2687"
+          page_id: "2687",
         }),
-        contentType: "application/json; charset=utf-8"
+        contentType: "application/json; charset=utf-8",
       });
     },
 
-    getData: function(e) {
+    getData: function (e) {
       var self = this;
       $.ajax({
         type: "POST",
@@ -373,45 +380,50 @@ export default {
           "/web_projects/MyEnrollWebService/ACAWebMethod.aspx/GetACAReportData",
         data: JSON.stringify({
           group_id: 205,
-          report_id: e
+          report_id: e,
         }),
-        contentType: "application/json; charset=utf-8"
+        contentType: "application/json; charset=utf-8",
       })
-        .done(function(n) {
+        .done(function (n) {
           self.reports.push(JSON.parse(n.d)[0]);
           var tempX = JSON.parse(n.d);
-          self.reportGroups.filter(function(r) {
+          self.reportGroups.filter(function (r) {
             return r.report == tempX[0].report_group;
           })[0].loaded = 1;
         })
-        .fail(function() {
+        .fail(function () {
           console.log("report id " + e + " fail");
-          self.reportGroups.filter(function(r) {
+          self.reportGroups.filter(function (r) {
             return r.id == e;
           })[0].loaded = 2;
         });
-    }
+    },
+    initRun() {
+      var self = this;
+      self.allRepsLoaded = false;
+      if (
+        window.location.href.toLowerCase().indexOf("bastest.com") > -1 ||
+        window.location.href.toLowerCase().indexOf("myenroll.com") > -1
+      ) {
+        self.reports = [];
+        $.each(self.reportIds, function (key, value) {
+          self.getData(value);
+        });
+      } else {
+        self.dialog = true;
+
+        $.getJSON("./data/quickTableSample.json", function (data) {
+          self.reports = data.reports;
+        });
+      }
+    },
   },
-  created: function() {
+  created: function () {
     this.recordVisit();
   },
-  mounted: function() {
+  mounted: function () {
     var self = this;
-    if (
-      window.location.href.toLowerCase().indexOf("bastest.com") > -1 ||
-      window.location.href.toLowerCase().indexOf("myenroll.com") > -1
-    ) {
-      self.reports = [];
-      $.each(self.reportIds, function(key, value) {
-        self.getData(value);
-      });
-    } else {
-      self.dialog = true;
-
-      $.getJSON("./data/quickTableSample.json", function(data) {
-        self.reports = data.reports;
-      });
-    }
-  }
+    self.initRun();
+  },
 };
 </script>
