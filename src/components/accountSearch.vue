@@ -22,7 +22,7 @@
 <script>
 import axios from "axios";
 import _ from "lodash";
-import { mapActions, mapGetters } from "vuex";
+import { mapActions } from "vuex";
 export default {
   name: "accountSearch",
 
@@ -61,32 +61,10 @@ export default {
         acct: self.acctSelect.ACCOUNT_NUM,
         name: self.acctSelect.ACCOUNT_NAME,
       });
-      self.setHistoricalRolls({
-        acct: self.acctSelect.ACCOUNT_NUM,
-      });
-
-      Promise.all([
-        self.setAcctInfo({
-          acct: self.acctSelect.ACCOUNT_NUM,
-        }),
-      ]).then(function () {
-        self.setRollProgress({
-          acct: self.acctSelect.ACCOUNT_NUM,
-          py: self.acctInfo.NEXT_PLANI_YEAR,
-        });
-      });
     },
   },
-  computed: {
-    ...mapGetters(["acctInfo"]),
-  },
   methods: {
-    ...mapActions([
-      "setChosenAcct",
-      "setHistoricalRolls",
-      "setAcctInfo",
-      "setRollProgress",
-    ]),
+    ...mapActions(["setChosenAcct"]),
 
     queryAccountSelections: _.debounce(function queryAccountSelections(v) {
       var self = this;
