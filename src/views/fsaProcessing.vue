@@ -120,7 +120,7 @@
 		<v-dialog v-model="detailPop" max-width="750">
 			<v-card>
 				<v-card-title :style="'background:' + selProcColor" class="white--text">
-					<span> Hourly Claims Processed - {{ selProcDate }}</span>
+					<span>{{ selProcDate }}</span>
 					<v-spacer></v-spacer>
 					<v-btn icon dark @click="detailPop = false">
 						<v-icon>mdi-close</v-icon>
