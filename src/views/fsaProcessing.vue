@@ -41,11 +41,16 @@
 		<v-row align="center" justify="center">
 			<v-col cols="12" class="headline mt-3">
 				<v-toolbar flat dense>
-					<v-toolbar-title>Daily Performance</v-toolbar-title>
+					<v-toolbar-title>Overview</v-toolbar-title>
 				</v-toolbar>
 			</v-col>
 			<v-col cols="12" md="7">
 				<v-card :loading="initLoading || dlProgress > 0" min-height="450">
+					<v-card-title>
+						<span>Daily</span>
+						<v-spacer></v-spacer>
+						<v-switch v-model="showLabels" label="Values"></v-switch>
+					</v-card-title>
 					<v-card-text>
 						<v-overlay :value="initLoading" absolute>
 							<v-progress-circular
@@ -71,6 +76,11 @@
 			</v-col>
 			<v-col cols="12" md="5">
 				<v-card min-height="450" :loading="initLoading || dlProgress > 0">
+					<v-card-title>
+						<span>Workload</span>
+						<v-spacer></v-spacer>
+						<v-switch></v-switch>
+					</v-card-title>
 					<v-card-text>
 						<v-overlay :value="initLoading" absolute>
 							<v-progress-circular
@@ -184,13 +194,33 @@
 				</v-card-title>
 
 				<v-card-text>
-					<fusioncharts
-						:type="rangeDetail.type"
-						:width="rangeDetail.width"
-						:height="rangeDetail.height"
-						:dataFormat="rangeDetail.dataFormat"
-						:dataSource="rangeDetail.dataSource"
-					></fusioncharts>
+					<v-fade-transition mode="out-in" duration="200">
+						<template v-if="rangeDetail.dataSource.dataset.length == 0">
+							<v-container class="fill-height">
+								<v-row justify="center" align="center">
+									<v-col class="text-center">
+										<v-progress-circular
+											width="10"
+											indeterminate
+											size="100"
+											:color="selProcColor"
+										></v-progress-circular>
+										<h4 class="text-h4">Loading</h4>
+									</v-col>
+								</v-row>
+							</v-container>
+						</template>
+						<template v-else>
+							<fusioncharts
+								@dataplotClick="openDetails"
+								:type="rangeDetail.type"
+								:width="rangeDetail.width"
+								:height="rangeDetail.height"
+								:dataFormat="rangeDetail.dataFormat"
+								:dataSource="rangeDetail.dataSource"
+							></fusioncharts>
+						</template>
+					</v-fade-transition>
 				</v-card-text>
 			</v-card>
 		</v-dialog>
@@ -215,6 +245,13 @@
 	export default {
 		name: 'fsaProcessing',
 		watch: {
+			showLabels() {
+				if (this.showLabels) {
+					this.timeline.dataSource.chart.showvalues = '1';
+				} else {
+					this.timeline.dataSource.chart.showvalues = '0';
+				}
+			},
 			rangeDetailPop() {
 				var self = this;
 				if (!self.rangeDetailPop) {
@@ -227,7 +264,7 @@
 				if (!self.detailPop) {
 					self.selProcDtl = '';
 					self.selProcDate = '';
-					self.detail.dataSource.dataset = [];
+					self.detail.dataSource.data = [];
 					self.detail.type = '';
 				}
 			},
@@ -273,6 +310,7 @@
 			},
 		},
 		data: () => ({
+			showLabels: false,
 			rangeDetailPop: false,
 			rangeMenu: false,
 			selProcDtl: '',
@@ -319,6 +357,9 @@
 				dataFormat: 'json',
 				dataSource: {
 					chart: {
+						stack100percent: '1',
+						showvalues: '0',
+						decimals: '1',
 						animation: '1',
 						defaultAnimation: '1',
 						bgColor: '#ffffff',
@@ -606,23 +647,24 @@
 				self.rangeDetailPop = true;
 				self.selProcDtl = r;
 				self.selProcColor = self.retColor(r);
-				self.rangeDetail.dataSource.categories =
-					self.timeline.dataSource.categories;
 
-				self.rangeDetail.dataSource.dataset = self.timeline.dataSource.dataset
-					.filter(function (n) {
-						return n.seriesname == r;
-					})
-					.map(function (m) {
-						return {
-							color: m.anchorBgColor,
-							seriesname: r,
-							data: m.data,
-						};
-					});
 				setTimeout(function () {
+					self.rangeDetail.dataSource.categories =
+						self.timeline.dataSource.categories;
+
+					self.rangeDetail.dataSource.dataset = self.timeline.dataSource.dataset
+						.filter(function (n) {
+							return n.seriesname == r;
+						})
+						.map(function (m) {
+							return {
+								color: m.anchorBgColor,
+								seriesname: r,
+								data: m.data,
+							};
+						});
 					self.rangeDetail.type = 'mscolumn2d';
-				}, 50);
+				}, 500);
 			},
 			openDetails(e) {
 				var self = this;
@@ -678,7 +720,7 @@
 					setTimeout(function () {
 						self.detail.type = 'bar2d';
 					}, 1);
-				}, 250);
+				}, 500);
 			},
 			retColor(r) {
 				var self = this;
