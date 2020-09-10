@@ -592,7 +592,11 @@ export default {
           };
         });
       setTimeout(function () {
-        self.rangeDetail.type = "mscolumn2d";
+        if (self.rangeDetail.dataSource.dataset[0].data.length > 5) {
+          self.rangeDetail.type = "scrollcolumn2d";
+        } else {
+          self.rangeDetail.type = "mscolumn2d";
+        }
       }, 50);
     },
     openDetails(e) {
