@@ -3,11 +3,15 @@
 		<v-row>
 			<v-col cols="12" md="4">
 				<v-menu
+					ref="dateMenu"
 					:close-on-content-click="false"
+					:close-on-click="false"
 					transition="scale-transition"
 					offset-y
 					max-width="290px"
 					min-width="290px"
+					v-model="rangeMenu"
+					:return-value.sync="dateRange"
 				>
 					<template v-slot:activator="{ on, attrs }">
 						<v-text-field
@@ -19,7 +23,18 @@
 							v-on="on"
 						></v-text-field>
 					</template>
-					<v-date-picker range v-model="dateRange" no-title></v-date-picker>
+					<v-date-picker range v-model="dateRange" no-title>
+						<v-spacer></v-spacer>
+						<v-btn text color="primary" @click="rangeMenu = false"
+							>Cancel</v-btn
+						>
+						<v-btn
+							text
+							color="primary"
+							@click="getSample(dateRangeText1, dateRangeText2)"
+							>OK</v-btn
+						>
+					</v-date-picker>
 				</v-menu>
 			</v-col>
 		</v-row>
@@ -41,20 +56,16 @@
 								>{{ dlProgress }}</v-progress-circular
 							>
 						</v-overlay>
-						<v-fade-transition mode="out-in">
-							<template v-if="dateRangeText2 != '' || sample.length > 0">
-								<fusioncharts
-									key="loaded"
-									@dataplotClick="openDetails"
-									ref="timeline"
-									:type="timeline.type"
-									:width="timeline.width"
-									:height="timeline.height"
-									:dataformat="timeline.dataFormat"
-									:dataSource="timeline.dataSource"
-								></fusioncharts>
-							</template>
-						</v-fade-transition>
+						<fusioncharts
+							key="loaded"
+							@dataplotClick="openDetails"
+							ref="timeline"
+							:type="timeline.type"
+							:width="timeline.width"
+							:height="timeline.height"
+							:dataformat="timeline.dataFormat"
+							:dataSource="timeline.dataSource"
+						></fusioncharts>
 					</v-card-text>
 				</v-card>
 			</v-col>
@@ -100,11 +111,11 @@
 						v-for="item in procTotalsProc"
 						:key="item.label"
 					>
-						<v-card>
+						<v-card @click="rangeDetailShow(e, item.label)">
 							<v-card-title>
 								<span>{{ item.label }}</span>
 								<v-spacer></v-spacer>
-								<v-avatar size="36" :color="item.color" dark>
+								<v-avatar size="36" :color="retColor(item.label)" dark>
 									<v-icon dark>mdi-account-circle</v-icon>
 								</v-avatar>
 							</v-card-title>
@@ -163,8 +174,34 @@
 				</v-card-text>
 			</v-card>
 		</v-dialog>
+		<v-dialog v-model="rangeDetailPop" max-width="750">
+			<v-card>
+				<v-card-title :style="'background:' + selProcColor" class="white--text">
+					<span>{{ selProcDtl }}</span>
+					<v-spacer></v-spacer>
+					<v-btn icon dark @click="rangeDetailPop = false">
+						<v-icon>mdi-close</v-icon>
+					</v-btn>
+				</v-card-title>
+
+				<v-card-text>
+					<fusioncharts
+						:type="rangeDetail.type"
+						:width="rangeDetail.width"
+						:height="rangeDetail.height"
+						:dataFormat="rangeDetail.dataFormat"
+						:dataSource="rangeDetail.dataSource"
+					></fusioncharts>
+				</v-card-text>
+			</v-card>
+		</v-dialog>
 	</v-container>
 </template>
+<style>
+	g[class*='plot-group'] path:not([stroke='#ffc533']) {
+		cursor: pointer;
+	}
+</style>
 <script>
 	import Vue from 'vue';
 	import VueFusionCharts from 'vue-fusioncharts';
@@ -192,12 +229,7 @@
 				var self = this;
 				self.spread.dataSource.data = self.procTotalsProc;
 			},
-			dateRangeText2() {
-				var self = this;
-				if (self.dateRangeText2 != '') {
-					self.getSample(self.dateRangeText1, self.dateRangeText2);
-				}
-			},
+
 			dates() {
 				var self = this;
 				self.setCategories(self.dates);
@@ -235,6 +267,8 @@
 			},
 		},
 		data: () => ({
+			rangeDetailPop: false,
+			rangeMenu: false,
 			selProcDtl: '',
 			selProcDate: '',
 			selProcArr: [],
@@ -318,6 +352,26 @@
 					data: [],
 				},
 			},
+			rangeDetail: {
+				type: 'column2d',
+				width: '100%',
+				height: '550',
+				dataFormat: 'json',
+				dataSource: {
+					chart: {
+						yaxisname: 'Claims Processed',
+						aligncaptionwithcanvas: '0',
+						plottooltext: '<b>$dataValue</b> Claims processed on <b>$label</b>',
+						theme: 'fusion',
+					},
+					categories: [
+						{
+							category: [],
+						},
+					],
+					dataset: [],
+				},
+			},
 		}),
 		created: function () {
 			var self = this;
@@ -352,6 +406,10 @@
 				this.detail.dataSource.chart.toolTipBgColor = '#ffffff';
 				this.detail.dataSource.chart.baseFontColor = '#1e1e1e';
 			}
+		},
+		mounted: function () {
+			var self = this;
+			self.getSample(self.dateRangeText1, self.dateRangeText2);
 		},
 		computed: {
 			dateRangeText1() {
@@ -534,8 +592,65 @@
 			},
 		},
 		methods: {
+			rangeDetailShow(e, r) {
+				var self = this;
+				self.rangeDetailPop = true;
+				self.selProcDtl = r;
+				self.selProcDate = e.data.categoryLabel;
+				self.selProcColor = self.retColor(r);
+				self.detailPop = true;
+				var selDt = new Date(e.data.categoryLabel).toISOString().substr(0, 10);
+				var proc =
+					e.data.datasetName == 'Chau'
+						? 'LeCha'
+						: e.data.datasetName == 'Kaitlyn'
+						? 'IncKai'
+						: e.data.datasetName == 'Paulette'
+						? 'PauPry'
+						: 'Total';
+
+				setTimeout(function () {
+					self.detail.dataSource.data = _.sortBy(
+						_.uniqWith(
+							self.sample
+								.filter(function (a) {
+									return (
+										new Date(a.ADD_DATE_TIME).toISOString().substr(0, 10) ==
+										selDt
+									);
+								})
+								.map(function (n) {
+									return {
+										label:
+											Number(n.ADD_DATE_TIME.substr(11, 2)) == 12
+												? Number(n.ADD_DATE_TIME.substr(11, 2)) + ':00pm'
+												: Number(n.ADD_DATE_TIME.substr(11, 2)) > 11
+												? Number(n.ADD_DATE_TIME.substr(11, 2)) - 12 + ':00pm'
+												: Number(n.ADD_DATE_TIME.substr(11, 2)) + ':00am',
+										sortBy: n.ADD_DATE_TIME.substr(11, 2),
+										color: self.retColor(e.data.datasetName),
+										value: self.sample.filter(function (r) {
+											return (
+												r.LOCKED_USERID == proc &&
+												r.ADD_DATE_SIMPLIFIED.substr(0, 10) == selDt &&
+												n.ADD_DATE_TIME.substr(11, 2) ==
+													r.ADD_DATE_TIME.substr(11, 2)
+											);
+										}).length,
+									};
+								}),
+							_.isEqual,
+						),
+						'sortBy',
+					);
+					setTimeout(function () {
+						self.detail.type = 'bar2d';
+					}, 1);
+				}, 250);
+			},
 			openDetails(e) {
 				var self = this;
+				console.log(e);
 				self.selProcDtl = e.data.datasetName;
 				self.selProcDate = e.data.categoryLabel;
 				self.selProcColor = self.retColor(e.data.datasetName);
@@ -563,7 +678,9 @@
 								.map(function (n) {
 									return {
 										label:
-											Number(n.ADD_DATE_TIME.substr(11, 2)) > 12
+											Number(n.ADD_DATE_TIME.substr(11, 2)) == 12
+												? Number(n.ADD_DATE_TIME.substr(11, 2)) + ':00pm'
+												: Number(n.ADD_DATE_TIME.substr(11, 2)) > 11
 												? Number(n.ADD_DATE_TIME.substr(11, 2)) - 12 + ':00pm'
 												: Number(n.ADD_DATE_TIME.substr(11, 2)) + ':00am',
 										sortBy: n.ADD_DATE_TIME.substr(11, 2),
@@ -588,14 +705,10 @@
 				}, 250);
 			},
 			retColor(r) {
-				switch (r) {
-					case 'Chau':
-						return '#5D62B5';
-					case 'Kaitlyn':
-						return '#29C3BE';
-					case 'Paulette':
-						return '#F2726F';
-				}
+				var self = this;
+				return self.timeline.dataSource.dataset.filter(function (n) {
+					return n.seriesname == r;
+				})[0].anchorBgColor;
 			},
 			procName(r) {
 				switch (r) {
@@ -618,6 +731,7 @@
 			},
 			getSample(r, s) {
 				var self = this;
+				self.$refs.dateMenu.save(self.dateRange);
 				self.initLoading = true;
 				self.dlProgress = 0;
 				axios
