@@ -71,7 +71,7 @@
           <v-card-title>
             <span>Workload</span>
             <v-spacer></v-spacer>
-            <v-switch></v-switch>
+            <v-switch v-model="showLabelsD" label="Labels"></v-switch>
           </v-card-title>
           <v-card-text>
             <v-overlay :value="initLoading" absolute>
@@ -207,10 +207,21 @@ import VueFusionCharts from "vue-fusioncharts";
 import FusionCharts from "fusioncharts";
 import Column2D from "fusioncharts/fusioncharts.charts";
 import FusionTheme from "fusioncharts/themes/fusioncharts.theme.fusion";
+import CandyTheme from "fusioncharts/themes/fusioncharts.theme.candy";
+import ZuneTheme from "fusioncharts/themes/fusioncharts.theme.zune";
+import CarbonTheme from "fusioncharts/themes/fusioncharts.theme.carbon";
 import _ from "lodash";
 import axios from "axios";
 
-Vue.use(VueFusionCharts, FusionCharts, Column2D, FusionTheme);
+Vue.use(
+  VueFusionCharts,
+  FusionCharts,
+  Column2D,
+  FusionTheme,
+  CandyTheme,
+  ZuneTheme,
+  CarbonTheme
+);
 
 export default {
   name: "fsaProcessing",
@@ -220,6 +231,13 @@ export default {
         this.timeline.dataSource.chart.showvalues = "1";
       } else {
         this.timeline.dataSource.chart.showvalues = "0";
+      }
+    },
+    showLabelsD() {
+      if (this.showLabelsD) {
+        this.spread.dataSource.chart.showLabels = "1";
+      } else {
+        this.spread.dataSource.chart.showLabels = "0";
       }
     },
     rangeDetailPop() {
@@ -232,8 +250,6 @@ export default {
     detailPop() {
       var self = this;
       if (!self.detailPop) {
-        self.selProcDtl = "";
-        self.selProcDate = "";
         self.detail.dataSource.data = [];
         self.detail.type = "";
       }
@@ -260,6 +276,10 @@ export default {
         this.detail.dataSource.chart.bgColor = "#1e1e1e";
         this.detail.dataSource.chart.toolTipBgColor = "#1e1e1e";
         this.detail.dataSource.chart.baseFontColor = "#ffffff";
+
+        this.rangeDetail.dataSource.chart.bgColor = "#1e1e1e";
+        this.rangeDetail.dataSource.chart.toolTipBgColor = "#1e1e1e";
+        this.rangeDetail.dataSource.chart.baseFontColor = "#ffffff";
       } else {
         this.timeline.dataSource.chart.bgColor = "#ffffff";
         this.timeline.dataSource.chart.toolTipBgColor = "#ffffff";
@@ -272,6 +292,10 @@ export default {
         this.detail.dataSource.chart.bgColor = "#ffffff";
         this.detail.dataSource.chart.toolTipBgColor = "#ffffff";
         this.detail.dataSource.chart.baseFontColor = "#1e1e1e";
+
+        this.rangeDetail.dataSource.chart.bgColor = "#ffffff";
+        this.rangeDetail.dataSource.chart.toolTipBgColor = "#ffffff";
+        this.rangeDetail.dataSource.chart.baseFontColor = "#1e1e1e";
       }
     },
     sample() {
@@ -281,6 +305,7 @@ export default {
   },
   data: () => ({
     showLabels: false,
+    showLabelsD: false,
     rangeDetailPop: false,
     rangeMenu: false,
     selProcDtl: "",
@@ -634,7 +659,6 @@ export default {
     },
     openDetails(e) {
       var self = this;
-      console.log(e);
       self.selProcDtl = e.data.datasetName;
       self.selProcDate = e.data.categoryLabel;
       self.selProcColor = self.retColor(e.data.datasetName);
