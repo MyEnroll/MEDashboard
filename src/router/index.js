@@ -35,6 +35,11 @@ export default new VueRouter({
 					/* webpackChunkName: "fsa_dashboard" */ '../views/fsaProcessing.vue'
 				),
 		},
-		
+		{
+			path: '/oe',
+			name: 'Open Enrollment',
+			component: () =>
+				import(/* webpackChunkName: "OE_Dashboard" */ '../views/oeStats.vue'),
+		},
 	],
 });

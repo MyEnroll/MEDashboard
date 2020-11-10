@@ -53,7 +53,7 @@ export default {
     acctSelect: function () {
       var self = this;
       self.$emit(
-        "changeSelectedAccount",
+        "change-selected-account",
         self.acctSelect.ACCOUNT_NAME,
         self.acctSelect.ACCOUNT_NUM
       );

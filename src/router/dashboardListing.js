@@ -21,9 +21,18 @@ export default {
 			name: 'FSA Processing',
 			displayName: 'FSA Processing',
 			icon: 'mdi-view-dashboard',
-			desc: 'Internal Dashboard for reviewing the FSA Processing Team&apos;s productivity.',
+			desc:
+				'Internal Dashboard for reviewing the FSA Processing Team&apos;s productivity.',
 			active: 1,
 		},
-		
+		{
+			path: '/oe',
+			name: 'Open Enrollment',
+			displayName: 'Open Enrollment',
+			icon: 'mdi-view-dashboard',
+			desc:
+				'Dashboard for reviewing Open Enrollment completions for a chosen year.',
+			active: 1,
+		},
 	],
 };
