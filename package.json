@@ -13,7 +13,7 @@
     "core-js": "^3.8.1",
     "fusioncharts": "^3.16.0",
     "jquery": "^3.5.1",
-    "lodash": "^4.17.20",
+    "lodash": "^4.17.21",
     "npm-check-updates": "^10.2.5",
     "uikit": "^3.5.17",
     "vue": "^2.6.12",
